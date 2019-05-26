@@ -112,7 +112,7 @@ class AccountPageFormBase extends Component {
       
          
         
-          <div class="card w-50">
+          <div class="card" style={{width: "50em"}}>
             <div class="text-center">
                   <h3><i class="fas fa-user-plus"></i> Update Profile</h3>
                   <hr class="mt-2 mb-2"></hr>
@@ -170,7 +170,11 @@ class AccountPageFormBase extends Component {
      
       </div>
       :
-      <div><p>Loading information. If this is taking too long please check your internet connection</p></div>
+      <div style ={{marginTop: "50px"}} class = "d-flex justify-content-center">
+          <div class="spinner-border text-success" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
       }
       </div>
     );

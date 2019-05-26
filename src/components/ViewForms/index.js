@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import {  withRouter } from 'react-router-dom';
-
+import Select from 'react-select';
 import { withFirebase } from '../Firebase';
 import firebase from 'firebase';
 import { withAuthorization } from '../Session';
-import Griddle, { plugins, RowDefinition, ColumnDefinition} from 'griddle-react';
+
 import * as ROUTES from '../../constants/routes';
 const ViewFormsPage = () => ( // for the use of routing
   <div>
@@ -19,176 +19,215 @@ class ViewFormsDisplayBase extends Component {
   constructor(props) {
     super(props);
   
-    this.state = { loading: true,fire_loaded1: false,formName:'', forms:  [], properties : [] };
+    this.state = { form:this.props.location.state.form ,formKey: '',formName: '', specimen:'', testType: '', numericProperties:[], optionProperties: [], textProperties:[], loading: true,fire_loaded1: false,cards:[],
+    cards2: [], 
+    cards3: [],
+    };
   }
 
-  
-  fetchedDatas= [];
+
   async componentWillMount() {
     await firebase.database().ref('users/'+firebase.auth().currentUser.uid).once('value',(snapshot) => {
         this.userType = snapshot.val().userType;
+        this.setState({fire_loaded1:true});
         this.forceUpdate();
     });
     if (this.userType === 'patient' || this.userType === 'unapproved' ){
         alert("You don't have permission to view this page");
         this.props.history.push(ROUTES.HOME);
     }
-    firebase.database().ref('forms/').orderByChild('formName').on('value', (snapshot) => {
-      this.fetchedDatas = [];
-      var x=0;
-      snapshot.forEach((child)=>{
-        this.fetchedDatas.push({
-                  id: x,
-                  formName: child.val().formName,
-                  fields: child.val().fields,
-                  _key: child.key
-                });
-                x=x+1;  
-      }) 
-      this.setState({forms:this.fetchedDatas});
-      this.setState({fire_loaded1:true});
-      this.forceUpdate();
-    });
-    
+    this.setState({formName: this.state.form.formName})
+    this.setState({specimen: this.state.form.specimen})
+    this.setState({testType: this.state.form.testType})
+    this.setState({formKey: this.state.form.formKey})
+    this.setState({numericProperties: this.state.form.numericProperties})
+    this.setState({optionProperties: this.state.form.optionProperties})
+    this.setState({textProperties: this.state.form.tex})
+    if(this.state.numericProperties!== undefined){
+        
+      var cards = [];
+      for (var i = 0; i < this.state.numericProperties.length; i++) {
+          
+        cards.push(<div style ={{marginTop: "25px"}} className="d-flex justify-content-center ">
+        <div className="card " style={{width: "50em"}}>
+        <div className="md-form">
+                        <div className="text-center">
+                        
+                      {this.state.numericProperties[i].propertyName} : <input
+                        name={this.state.numericProperties[i].propertyKey}
+                
+                        type="text"
+                        placeholder={this.state.numericProperties[i].propertyValue}
+                        value={this.state.v}
+                        onChange={this.onChange2}
+
+                      /> {this.state.numericProperties[i].unitOfMeasurement}, Low Value : {this.state.numericProperties[i].lowValue}, High Value : {this.state.numericProperties[i].highValue}
+                      </div>
+                    </div></div>
+        </div>);
+      }
+  
+      this.setState({cards:cards})
+  }
+  if(this.state.optionProperties!== undefined){
+    var cards2 = [];
+    for (var j = 0; j < this.state.optionProperties.length; j++) {
+      
+      cards2.push(<div style ={{marginTop: "25px"}} className="d-flex justify-content-center ">
+      <div className="card " style={{width: "50em"}}>
+      <div className="md-form">
+                      <div className="text-center">
+                    {this.state.optionProperties[j].propertyName} : 
+                    <div className="text-center">
+                    <Select
+                      name = {this.state.optionProperties[j].propertyKey}
+                      
+                      options={this.state.optionProperties[j].optionsList.map(t=>({value: t, label: t}))}
+                      placeholder={this.state.optionProperties[j].selectedOption}
+                      onChange={this.onChange3}
+                    />
+                    </div>
+                    </div>
+                  </div></div>
+      </div>);
+    }
+    this.setState({cards2:cards2})
+  }
+  if(this.state.textProperties !== undefined){
+      var cards3 = [];
+      for (var k = 0; k < this.state.textProperties.length; k++) {
+        
+        cards3.push(<div style ={{marginTop: "25px"}} class="d-flex justify-content-center ">
+        <div class="card " style={{width: "50em"}}>
+        <div class="md-form">
+                        <div class="text-center">
+                      {this.state.textProperties[k].propertyName} : <input
+                        name={this.state.textProperties[k].propertyKey}
+                
+                        type="text"
+                        placeholder={this.state.textProperties[k].propertyValue}
+                        value={this.state.v}
+                        onChange={this.onChange4}
+
+                      /> 
+                      </div>
+                    </div></div>
+        </div>);
+      } 
+      this.setState({cards3:cards3})
   }
   
-  deleteform = (key) => {
-    firebase.database().ref('forms/').child(this.state.forms[key]._key).remove().then(
-        function() {
-          // fulfillment
-          alert("Form data has been removed successfully");
-          this.setState({properties:[]})
-      },
-      function() {
-        // fulfillment
-        alert("Form data has not been removed successfully");
-    });
-  }
-  selectForm = (key) => {
-    this.setState({formName: this.state.forms[key].formName})
-    this.properties = [];
-    this.state.forms[key].fields.forEach((obj)=>{
-        firebase.database().ref('properties/').orderByKey().equalTo(obj.propertyKey).on('value', (snapshot) => {
-            var y=0;
-            snapshot.forEach((child)=>{
-              this.properties.push({
-                        id: y,
-                        Property_Name: child.val().propertyName,
-                        Unit_of_Measurement: child.val().unitOfMeasurement,
-                        Reference_Range: child.val().referenceRange,
-                        _key: child.key
-                      });
-                      y=y+1;  
-            }) 
-            
-            this.setState({fire_loaded1:true});
-            this.forceUpdate();
-          });
-        
-    })
-    this.setState({properties: this.properties});
-    console.log(this.properties);
-  }
+  this.setState({loading:false});
+
+}
+onChange = event  => {
+  this.setState({ [event.target.name]: event.target.value});
+  
+ 
+};
+
+onChange2 = event => {
+    
+  this.state.numericProperties.forEach((obj) => {
+      
+    if(obj.propertyKey===event.target.name){
+      
+      obj.propertyValue=event.target.value ;
+    }
+  })
+  
+ // this.setState({ [event.target.name]: event.target.value }); // set the value to the corresponding name of the state in an onChange event
+
+};
+onChange3 = (selectedOption,selectedProperty) => {
+  
+  this.state.optionProperties.forEach((obj) => {
+    if(obj.propertyKey===selectedProperty.name){
+      obj.selectedOption=selectedOption.value ;
+      
+    }
+  })
+  
+}
+onChange4 = event => {
+  this.state.textProperties.forEach((obj) => {
+    if(obj.propertyKey===event.target.name){
+      obj.propertyValue=event.target.value ;
+    }
+  })
+ 
+ // this.setState({ [event.target.name]: event.target.value }); // set the value to the corresponding name of the state in an onChange event
+
+}; 
+ 
+  
     
 
   render() {
-    const styleConfig = {
-        icons: {
-          TableHeadingCell: {
-            sortDescendingIcon: '▼',
-            sortAscendingIcon: '▲',
-          },
-        },
-        classNames: {
-          Row: 'row-class',
-          Table: 'table-striped, table',
-        },
-        styles: {
-          Filter: { fontSize: 18 },
-        },
-      };
- 
-    const DeleteformButton = ({griddleKey}) => (
-        <div>
-          <button type="button" class="btn btn-danger btn-rounded" onClick = { () => this.deleteform(griddleKey)}>Remove</button>
-        </div>);
-    const CustomColumn = ({value}) => <span style={{ color: '#0000AA' }}>{value}</span>;
-    const CustomHeading = ({title}) => <span style={{ color: '#AA0000' }}>{title}</span>;
+    
     return (
       <div>
-      {this.state.fire_loaded1 || this.userType === 'admin' || this.userType === 'ldo' ?  // only if the firebase data are loaded or admins and laboratory data operators can view this page
-      <div style ={{marginTop: "50px"}} >
+        {this.state.fire_loaded1 ?
+      <div style ={{marginTop: "25px"}} >
         
         
-            <div class="text-center">
-                    <h5><i class="fas fa-hand-pointer"></i> Click a Form to view Properties</h5>
-                 
-            </div>
-         
-          <div style ={{marginTop: "50px"}} class="d-flex justify-content-center">
-      
-            <Griddle 
-                data={this.state.forms} 
-                plugins={[plugins.LocalPlugin]}
-                styleConfig={styleConfig}
-                components={{
-                    RowEnhancer: OriginalComponent =>
-                        props => (
-                        <OriginalComponent
-                            {...props}
-                            onClick={() => this.selectForm(props.griddleKey)}
-                            />
-                        ),
-                    }}
-            >
-                <RowDefinition>
-                <ColumnDefinition id="formName" title="Form Name" customComponent={CustomColumn} customHeadingComponent={CustomHeading}/>
+        <div className="text-center">
+            <h3><i className="far fa-edit"></i>  {this.state.formName} (Preview)</h3>        
+        </div>
+        
+    
+        
 
-                 <ColumnDefinition id="" customComponent={DeleteformButton} />
-            </RowDefinition>
-            </Griddle>
-            </div>
-                    
         
-      </div>  
-      :
-      <div class = "d-flex justify-content-center">
-          <div class="spinner-grow text-primary" role="status">
-            <span class="sr-only">Loading...</span>
-          </div>
-        </div>
-      }
-      {this.state.fire_loaded1 || this.userType === 'admin' || this.userType === 'ldo' ?  // only if the firebase data are loaded or admins and laboratory data operators can view this page
-      <div style ={{marginTop: "50px"}} >
-         <div class="d-flex justify-content-center ">
-         <div class="md-form">
-                  <div class="text-center">
-                  <h3>Form Name : {this.state.formName}</h3>
-                
-                </div>
-              </div>
-         </div>
-        <div class="d-flex justify-content-center">
-            <Griddle 
-                data={this.state.properties} 
-                plugins={[plugins.LocalPlugin]}
-                styleConfig={styleConfig}
-                
-            >
-                <RowDefinition>
-                    <ColumnDefinition id="Property_Name" title="Property Name" customComponent={CustomColumn} customHeadingComponent={CustomHeading}/>
-                    <ColumnDefinition id="Unit_of_Measurement" title="Unit of Measurement" customHeadingComponent={CustomHeading}/>
-                    <ColumnDefinition id="Reference_Range" title="Reference Range" customHeadingComponent={CustomHeading} />
-                </RowDefinition>
-            </Griddle>
+        
+    
+
+    <div style ={{marginTop: "25px"}} >
+              
+    <div className="d-flex justify-content-center ">
+        
             
-         
+            
+        <div className="card " style={{width: "50em"}}>
+            
+                <div className="md-form">
+                    <div className="text-center">
+                        Specimen : {this.state.specimen} 
+                    </div>
+                </div>
+                <div className="md-form">
+                    <div className="text-center">
+                        Test Type : {this.state.testType} 
+                    </div>
+                </div>
+        
+            
+        
         </div>
-      </div>  
-      :
-      <div><p>Loading information. If this is taking too long please check your internet connection</p></div>
-      }
-      </div>
+        </div>  
+        
+       
+        
+        <div style ={{marginTop: "25px"}}>
+            {this.state.cards}
+            {this.state.cards2} 
+            {this.state.cards3}
+        </div>
+       
+        
+    </div>
+
+    </div>  
+    :
+    <div>
+    <div style ={{marginTop: "50px"}} className = "d-flex justify-content-center">
+            <div className="spinner-border text-success" role="status">
+                <span className="sr-only">Loading...</span>
+            </div>
+        </div>
+    </div>
+}
+</div>
       
       
     );

@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
+import { withFirebase } from '../Firebase';
+import * as ROUTES from '../../constants/routes';
 
 import { AuthUserContext } from '../Session';
 import {AccountNavBar} from '../AccountNavBar';
@@ -7,9 +10,9 @@ import {AccountNavBar} from '../AccountNavBar';
 const INITIAL_STATE = {
   passwordOne: '',
   passwordTwo: '',
-  error: null,
+
 };
-const PasswordChangeForm = () => (
+const PasswordChangeFormPage = () => (
   <div>
     <AuthUserContext.Consumer>
       {authUser =>
@@ -19,7 +22,7 @@ const PasswordChangeForm = () => (
       }
     </AuthUserContext.Consumer>
 
-      <PasswordChangeFormBase />
+      <PasswordChangeForm />
 
   </div>
 );
@@ -30,19 +33,31 @@ class PasswordChangeFormBase extends Component {
     this.state = { ...INITIAL_STATE };
   }
 
-  onSubmit = event => {
-    const { passwordOne } = this.state;
+  resetPassword = (passwordOne,passwordTwo) => {
+    if(passwordOne.length<6 ){
+      alert("Password one should have at least 6 characters.");
+      return;
+    }
+    else if(passwordTwo.length<6 ){
+      alert("Password two should have at least 6 characters.");
+      return;
+    }
+    else if(passwordOne!==passwordTwo ){
+      alert("Passwords do not match.");
+      return;
+    }
+    
 
     this.props.firebase
       .doPasswordUpdate(passwordOne)
       .then(() => {
+        alert("Password successfully updated");
         this.setState({ ...INITIAL_STATE });
       })
       .catch(error => {
-        this.setState({ error });
+        alert(error.message);
       });
 
-    event.preventDefault();
   };
 
   onChange = event => {
@@ -50,36 +65,59 @@ class PasswordChangeFormBase extends Component {
   };
 
   render() {
-    const { passwordOne, passwordTwo, error } = this.state;
 
-    const isInvalid =
-      passwordOne !== passwordTwo || passwordOne === '';
+
+    
 
     return (
-      <form onSubmit={this.onSubmit}>
+      <div style ={{marginTop: "50px"}} >
+      <div class="d-flex justify-content-center ">
+      <div class="card" style={{width: "18rem"}}>
+            <div class="text-center">
+                <h3><i class="fas fa-sign-in-alt"></i> Update Password</h3>
+                
+            </div>
+            <div class="md-form">
+                <div class="text-center">
         <input
           name="passwordOne"
-          value={passwordOne}
+          value={this.state.passwordOne}
           onChange={this.onChange}
           type="password"
           placeholder="New Password"
         />
+             </div>
+           </div>
+           <div class="text-center">
+                <div class="md-form">
         <input
           name="passwordTwo"
-          value={passwordTwo}
+          value={this.state.passwordTwo}
           onChange={this.onChange}
           type="password"
           placeholder="Confirm New Password"
         />
-        <button disabled={isInvalid} type="submit">
+        </div>
+              </div>
+        <div class="text-center">
+          <button class="btn blue-gradient" onClick = { () => this.resetPassword(this.state.passwordOne,this.state.passwordTwo)}>Reset Password</button>
+          
+          </div> 
+        {/* <button disabled={isInvalid} type="submit">
           Reset My Password
         </button>
 
         {error && <p>{error.message}</p>}
-      </form>
+      </form> */}
+      </div>
+         
+    </div>
+    </div>
     );
   }
 }
 
-export default (PasswordChangeForm);
-export {PasswordChangeFormBase};
+export default PasswordChangeFormPage;
+const PasswordChangeForm = withFirebase(PasswordChangeFormBase);
+
+export {PasswordChangeForm};

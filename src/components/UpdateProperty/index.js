@@ -22,7 +22,7 @@ const UpdatePropertyPage = () => ( // for the use of routing
 class UpdatePropertyDisplayBase extends Component {
   constructor(props) {
     super(props);
-    this.state = { loading: true,fire_loaded1: false, fire_loaded2: false,  dataTypes:  [{ propertyDataType: "Numeric" },{ propertyDataType: "Option" }, { propertyDataType: "Text" }] };
+    this.state = { loading: true,fire_loaded1: false,   dataTypes:  [{ propertyDataType: "Numeric" },{ propertyDataType: "Option" }, { propertyDataType: "Text" }] };
       //this.handleChange = this.handleChange.bind(this);
   }
   // handleChange(event) {
@@ -35,7 +35,7 @@ class UpdatePropertyDisplayBase extends Component {
 
      firebase.database().ref('users/'+firebase.auth().currentUser.uid).once('value',(snapshot) => {
       this.userType = snapshot.val().userType;
-
+      this.setState({fire_loaded1:true});
     });
     if (this.userType === 'patient' || this.userType === 'unapproved'){
         alert("You don't have permission to view this page");
@@ -98,14 +98,15 @@ class UpdatePropertyDisplayBase extends Component {
 
      
       return (
-     
+        <div>
+        {this.state.fire_loaded1  ?  // only if the firebase data are loaded or admins and laboratory data operators can view this page  
         <div style ={{marginTop: "50px"}} >
     
           <div class="text-center">
                     <h5><i class="fas fa-hand-pointer"></i> Click on a property data type to update</h5>
           
           </div>
-          <div class="d-flex justify-content-center">
+          <div style={{cursor: "pointer"}} class="d-flex justify-content-center">
           
   
           <Griddle 
@@ -131,7 +132,14 @@ class UpdatePropertyDisplayBase extends Component {
           </div>
          
         </div>  
-  
+        :
+        <div style ={{marginTop: "50px"}} class = "d-flex justify-content-center">
+            <div class="spinner-border text-success" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+        }
+        </div>
         
         
       );

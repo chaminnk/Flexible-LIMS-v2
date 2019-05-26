@@ -2,219 +2,164 @@ import React, { Component } from 'react';
 import {  withRouter } from 'react-router-dom';
 
 import { withFirebase } from '../Firebase';
-import * as ROUTES from '../../constants/routes';
-import * as firebase from 'firebase';
+import firebase from 'firebase';
 import { withAuthorization } from '../Session';
 import Griddle, { plugins, RowDefinition, ColumnDefinition} from 'griddle-react';
+import * as ROUTES from '../../constants/routes';
 
 const UpdateFormPage = () => ( // for the use of routing
   <div>
     
-    <UpdateFormForm />
+    <UpdateFormDisplay />
   </div>
 );
 
 
 
-class UpdateFormFormBase extends Component {
+class UpdateFormDisplayBase extends Component {
   constructor(props) {
     super(props);
-
-    this.state = ({ 
-      addPropertyLoading: false,
-      formName: '',
-      numericProperties :[],
-      optionProperties: [],
-      textProperties: [],
-      optionDataDisplay: [],
-      selectedNumericProperties : [],
-      selectedOptionProperties: [],
-      selectedTextProperties: [],
-      specimen: '',
-      testType :'',
-
-    fire_loaded: false,
-    fire_loaded2: false
-     })
-      
+    const timeStamp = new Date();
+    this.state = { timeStamp: String(timeStamp), loading: true,fire_loaded1: false,selected:false, fire_loaded2: false,  forms:  [], formName:'', formKey: '' , specimen:'',testType: ''};
+      //this.handleChange = this.handleChange.bind(this);
   }
+  // handleChange(event) {
+  //   this.setState({firstName: event.target.firstName});
+  // }
+  userId1 = firebase.auth().currentUser.uid;
 
+  fetchedDatas= [];
   async componentWillMount() {
-     //user authorization
-     await firebase.database().ref('users/'+firebase.auth().currentUser.uid).once('value',(snapshot) => {
-        this.userType = snapshot.val().userType;
-        this.setState({fire_loaded:true});
-        
+    await firebase.database().ref('users/'+firebase.auth().currentUser.uid).once('value',(snapshot) => {
+      this.userType = snapshot.val().userType;
+      this.setState({fire_loaded1: true});
     });
     if (this.userType === 'patient' || this.userType === 'unapproved' ){
         alert("You don't have permission to view this page");
         this.props.history.push(ROUTES.HOME);
     }
-    firebase.database().ref('properties/').orderByChild('propertyType').on('value', (snapshot) => {
-      this.numericDatas = [];
-      this.optionDatas = [];
-      this.textDatas = [];
-      this.optionDataDisplay = [];
+    firebase.database().ref('forms/').orderByChild('formName').on('value', (snapshot) => {
+      this.fetchedDatas = [];
       var x=0;
-      var y=0;
-      var z=0;
       snapshot.forEach((child)=>{
-        if(child.val().propertyType==="Numeric"){
-          this.numericDatas.push({
-            id: x,
-            propertyKey: child.key,
-            propertyName: child.val().propertyName,
-            unitOfMeasurement: child.val().unitOfMeasurement,
-            lowValue: child.val().lowValue,
-            highValue: child.val().highValue,
-            propertyType: child.val().propertyType,
-           
-          });
-          x=x+1;  
-        }
         
-        else if(child.val().propertyType==="Option"){
-         
-          let optionString = '';
-          let optionsList = [];
-          child.val().options.forEach((option=>{
-            optionString = optionString + option.optionValue + ', ';
-            optionsList.push(option.optionValue);
-          }))
-          this.optionDatas.push({
-            id:y,
-            propertyKey: child.key,
-            propertyName:  child.val().propertyName,
-            optionsList: optionsList,
-            propertyType: child.val().propertyType
-          })
-          this.optionDataDisplay.push({
-            id:y,
-            propertyKey: child.key,
-            propertyName:  child.val().propertyName,
-            options:optionString.slice(0,-2),
-            
-            propertyType: child.val().propertyType
-          })
-          y=y+1;
-          //console.log(this.optionDatas);
-        }
-        else if(child.val().propertyType==="Text"){
-         
-          this.textDatas.push({
-            id: z,
-            propertyKey: child.key,
-            propertyName:  child.val().propertyName,
-            propertyType: child.val().propertyType,
-           
-          });
-          z=z+1;
-          //console.log(this.optionDatas);
-        }
-          
-         
-      })
-      
-      this.setState({numericProperties:this.state.numericProperties.concat(this.numericDatas)}) 
-      this.setState({optionProperties:this.state.optionProperties.concat(this.optionDatas)}) 
-      this.setState({optionDataDisplay:this.state.optionDataDisplay.concat(this.optionDataDisplay)}) 
-      this.setState({textProperties:this.state.textProperties.concat(this.textDatas)}) 
+        this.fetchedDatas.push({
+                  id: x,
+                  formName: child.val().formName,
+                  specimen: child.val().specimen,
+                  testType: child.val().testType,
+                  numericProperties: child.val().numericProperties,
+                  optionProperties: child.val().optionProperties,
+                  textProperties: child.val().textProperties,
+                  createdBy: child.val().createdBy,
+                  createdDate: child.val().createdDate,
+                  formKey: child.key
+                });
+                x=x+1;  
+        
+      }) 
+      this.setState({forms:this.fetchedDatas});
       this.setState({fire_loaded2:true});
       //this.forceUpdate();
-      
     });
-    
+    this.setState({ loading: false });
+
   }
-
-
-
   onChange = event => {
     this.setState({ [event.target.name]: event.target.value }); // set the value to the corresponding name of the state in an onChange event
   };
-
-  handleUpdateForm = (formName,specimen,testType,numericProperties,optionProperties,textProperties) => {
-    
-    if (formName === ''){
-      alert("Form name field cannot be empty!");
-      return;
-    }
-    else if(numericProperties.length===0 && optionProperties.length===0 && textProperties.length===0){
-      alert("Please select a field to continue!");
-      return;
-    }
-
-    var formsRef = firebase.database().ref("forms");
-    
-    formsRef.push({
-        formName:formName,
-        specimen:specimen,
-        testType:testType,
-        numericProperties: numericProperties,
-        optionProperties: optionProperties,
-        textProperties:textProperties
-    }).then(() => {
-      alert("Form successfully created!");
-    this.setState({
-      formName: '',
-      specimen:'',
-      testType: '',
-      selectedNumericProperties: [],
-      selectedOptionProperties: [],
-      selectedTextProperties: []
+  deleteProperty = (key) => {
+    firebase.database().ref('forms/').child(key).remove().then(
+        function() {
+          // fulfillment
+          alert("Form data has been removed successfully");
+          this.setState({forms:[]});
+          this.setState({selected: false});
+      },
+      function() {
+        // fulfillment
+        alert("Form data has not been removed successfully");
     });
+  }
+  selectProperty = (key) => {
+    this.setState({selected:true});
+    this.setState({formKey:this.state.forms[key].formKey});
+    this.setState({formName: this.state.forms[key].formName});
+    this.setState({specimen: this.state.forms[key].specimen});
+    this.setState({testType: this.state.forms[key].testType});
+    
+   
+
+  }  
+  updateProperty = (formKey,formName,specimen,testType) => {
+
+    //proprty validation
+    if(formName === '' ){
+        alert("Form name field cannot be empty!");
+        return;
+    }
+    
+    
+    formName=formName.charAt(0).toUpperCase()+formName.slice(1);
+    let updates = {};
+    
+    firebase.database().ref('/testResults').orderByKey().once('value').then(snap => {
+      let testKeys = [];
+
+ 
+      snap.forEach((child)=>{
+        
+          if(child.val().testFormKey===formKey){
+            testKeys.push({testKey:child.key});
+            
+           
+          }
+        
+      })
+
+      
+      
+      testKeys.forEach(key => {
+        updates['testResults/'+key.testKey+'/formName'] = formName;
+        updates['testResults/'+key.testKey+'/specimen'] = specimen;
+        updates['testResults/'+key.testKey+'/testType'] = testType;
+        
+      });
+      this.updateDatabase(updates);
+     
+    
     })
-    .catch(error => {
-     alert(error.message);
-    });   
+    updates['/forms/' + formKey + '/formName'] = formName;
+    updates['/forms/'+formKey+'/specimen'] = specimen;  
+    updates['/forms/'+formKey+'/testType'] = testType;  
+    updates['/forms/' + formKey + '/createdBy'] = firebase.auth().currentUser.email;
+    updates['/forms/' + formKey + '/createdDate'] =  this.state.timeStamp;
+
+
+
+      firebase.database().ref().update(updates,function(error){
+        if(error){
+          alert(error.message);
+        }
+        else{
+          alert("Form details successfully updated.");
+        }
+      });
+    
     
   }
-
-
-  selectNumericProperty = (key) => {
-
-    var checkBox = document.getElementById("numeric"+key);
-    if (checkBox.checked === true){
-      this.setState({selectedNumericProperties: this.state.selectedNumericProperties.concat(this.state.numericProperties[key])});
-      
-    } else {
-    
-      this.setState({selectedNumericProperties: this.state.selectedNumericProperties.filter(p=> p.id !== key)});
-      
-    }
-   
-  }
-  selectOptionProperty = (key) => {
-
-    var checkBox = document.getElementById("option"+key);
-    if (checkBox.checked === true){
-      this.setState({selectedOptionProperties: this.state.selectedOptionProperties.concat(this.state.optionProperties[key])});
-      
-    } else {
-    
-      this.setState({selectedOptionProperties: this.state.selectedOptionProperties.filter(p=> p.id !== key)});
-      
-    }
-   
-  }
-  selectTextProperty = (key) => {
-
-    var checkBox = document.getElementById("text"+key);
-    if (checkBox.checked === true){
-      this.setState({selectedTextProperties: this.state.selectedTextProperties.concat(this.state.textProperties[key])});
-      
-    } else {
-    
-      this.setState({selectedTextProperties: this.state.selectedTextProperties.filter(p=> p.id !== key)});
-      
-    }
-   
-  }
-
-    
-
-    
-   
+  updateDatabase = (updates) =>{
+    firebase.database().ref().update(updates,function(error){
+      if(error){
+        alert(error.message);
+      }
+      else{
+        return true
+      }
+    });
+  }  
   render() {
+    
     const styleConfig = {
       icons: {
         TableHeadingCell: {
@@ -230,216 +175,125 @@ class UpdateFormFormBase extends Component {
         Filter: { fontSize: 18 },
       },
     };
-    const SelectNumericPropertyCheckBox= ({griddleKey}) => (
-      <div>
-        <input type="checkbox" id={"numeric"+griddleKey} onClick={ () => this.selectNumericProperty(griddleKey)}/>
-      </div>);
-    const SelectOptionPropertyCheckBox= ({griddleKey}) => (
-      <div>
-        <input type="checkbox" id={"option"+griddleKey} onClick={ () => this.selectOptionProperty(griddleKey)}/>
-      </div>);
-    const SelectTextPropertyCheckBox= ({griddleKey}) => (
-      <div>
-        <input type="checkbox" id={"text"+griddleKey} onClick={ () => this.selectTextProperty(griddleKey)}/>
-      </div>);
+    
+
     const CustomColumn = ({value}) => <span style={{ color: '#0000AA' }}>{value}</span>;
     const CustomHeading = ({title}) => <span style={{ color: '#AA0000' }}>{title}</span>;
     const pageProperties={
 
       pageSize: 3,
-    }
-    return ( 
+    }  
+    return (
+       
       <div>
-      {this.state.fire_loaded && this.state.fire_loaded2  ?
-      <div style ={{marginTop: "50px"}} >
+      {this.state.fire_loaded1 && this.state.fire_loaded2 ?
+      <div>
+
+<div style ={{marginTop: "25px"}} >
+    <div style ={{marginTop: "25px"}} class="d-flex justify-content-center">
+            <h5><i class="fas fa-hand-pointer"></i> Click on a Form to update</h5>
+    
+    </div>
+    <div class="d-flex justify-content-center">
+    <Griddle 
+              pageProperties={pageProperties}
+              data={this.state.forms} 
+              plugins={[plugins.LocalPlugin]}
+              styleConfig={styleConfig}
+              components={{
+                RowEnhancer: OriginalComponent =>
+                  props => (
+                    <OriginalComponent
+                      {...props}
+                      onClick={() => this.selectProperty(props.griddleKey)}
+                      />
+                  ),
+              }}
+          >
+              <RowDefinition>
+              <ColumnDefinition id="formName" title="First Name" customComponent={CustomColumn} customHeadingComponent={CustomHeading}/>
+              <ColumnDefinition id="createdBy" title="Last Name" customHeadingComponent={CustomHeading}/>
+              <ColumnDefinition id="createdDate" title="Email" customHeadingComponent={CustomHeading} />
+              
+          </RowDefinition>
+          </Griddle>
+    </div>
+</div>
+<div>{this.state.selected?
+    <div style ={{marginTop: "25px"}} class="d-flex justify-content-center ">
       
-        <div class="text-center">
-           <h3><i class="far fa-edit"></i> Update Test Form</h3>        
-        </div>
-        <div class="md-form">
-          <div class="text-center">
-            <input
-                name="formName"
-                onChange={this.onChange}
-                type="text"
-                placeholder="Enter Test Name"
-                value={this.state.formName}
-
-            />
-          </div>
-        </div>
-        <div class="md-form">
-          <div class="text-center">
-            <input
-                name="specimen"
-                onChange={this.onChange}
-                type="text"
-                placeholder="Enter Specimen (Optional)"
-                value={this.state.specimen}
-
-            />
-          </div>
-        </div>
-        <div class="md-form">
-          <div class="text-center">
-            <input
-                name="testType"
-                onChange={this.onChange}
-                type="text"
-                placeholder="Enter Test Type (Optional)"
-                value={this.state.testType}
-
-            />
-          </div>
-        </div>
-        <div style ={{marginTop: "25px"}} >
-      
+         
         
-        <div  class="d-flex justify-content-center">
+    <div class="card  " style={{width: "50em"}}>
+      <div class="text-center">
+            <h3><i class="far fa-edit"></i> Update Form</h3>
+            <hr class="mt-2 mb-2"></hr>
+      </div>
+      <div class="md-form">
+          <div class="text-center">
+        <input
+          name="formName"
+          onChange={this.onChange}
+          type="text"
+          placeholder="Enter Form Name"
+          value={this.state.formName}
+
+        />
+        </div>
+      </div>
+      <div class="md-form">
+          <div class="text-center">
+        <input 
+          name="specimen"
+          onChange={this.onChange}
+          type="text"
+          placeholder="Enter specimen Name"
+          value={this.state.specimen}
+
+        />
+        </div>
+      </div>
+      <div class="md-form">
+          <div class="text-center">
+        <input 
+          name="testType"
+          onChange={this.onChange}
+          type="text"
+          placeholder="Enter test type Name"
+          value={this.state.testType}
+
+        />
+        </div>
+      </div>
+
+      
+      <div style ={{marginTop: "50px"}} class="text-center">                    
+        <button class="btn aqua-gradient" onClick = { () => this.updateProperty(this.state.formKey,this.state.formName,this.state.specimen,this.state.testType)} >Update Form</button>
+        </div>
+        <div style ={{marginTop: "50px"}} class="text-center">                    
+      <button type="button" class="btn btn-danger btn-rounded" onClick = { () => this.deleteProperty(this.state.formKey)}>Remove Form</button>
+        </div>
+       
+      </div>
+
 
 
 </div>
-       
-        <div style ={{marginTop: "25px"}} class="text-center">
-          <h5><i class="fas fa-check"></i> Click on the check boxes to select field properties for the Test Form</h5 >   
-        </div>
-        
-        
-        <div  style ={{marginTop: "25px"}} class="d-flex justify-content-center">
-            {/* {console.log(this.numericDatas)} */}
-            {/* {console.log(this.state.properties)} */}
-            <div class="d-flex justify-content-center">
-              <Griddle 
-                  pageProperties={pageProperties}
-                  data={this.state.numericProperties} 
-                  plugins={[plugins.LocalPlugin]}
-                  styleConfig={styleConfig}
-              >
-                  <RowDefinition>
-                    <ColumnDefinition id="propertyName" title="Property Name" customComponent={CustomColumn} customHeadingComponent={CustomHeading}/>
-                    <ColumnDefinition id="unitOfMeasurement" title="Unit of Measurement" customHeadingComponent={CustomHeading}/>
-                    <ColumnDefinition id="lowValue" title="Low Value" customHeadingComponent={CustomHeading} />
-                    <ColumnDefinition id="highValue"  title="High Value" customHeadingComponent={CustomHeading} />
-                    <ColumnDefinition id="propertyType"  title="Property Type" customHeadingComponent={CustomHeading} />
-                    <ColumnDefinition id="" customComponent={SelectNumericPropertyCheckBox} />
-                </RowDefinition>
-              </Griddle>
-            </div>
-            
-        </div>
-        <div style ={{marginTop: "25px"}} class="d-flex justify-content-center">
-            {/* {console.log(this.optionDatas)}
-            {console.log(this.state.properties)} */}
-            <div class="d-flex justify-content-center">
-              <Griddle 
-                  pageProperties={pageProperties}
-                  data={this.state.optionDataDisplay} 
-                  plugins={[plugins.LocalPlugin]}
-                  styleConfig={styleConfig}
-              >
-                  <RowDefinition>
-                    <ColumnDefinition id="propertyName" title="Property Name" customComponent={CustomColumn} customHeadingComponent={CustomHeading}/>
-                    <ColumnDefinition id="options" title="Options" customHeadingComponent={CustomHeading}/>
-                    <ColumnDefinition id="propertyType"  title="Property Type" customHeadingComponent={CustomHeading} />
-                    <ColumnDefinition id="" customComponent={SelectOptionPropertyCheckBox} />
-                </RowDefinition>
-              </Griddle>
-            </div>
-            
-        </div>
-
-        <div style ={{marginTop: "25px"}} class="d-flex justify-content-center">
-            {/* {console.log(this.optionDatas)}
-            {console.log(this.state.properties)} */}
-            <div class="d-flex justify-content-center">
-              <Griddle 
-                  pageProperties={pageProperties}
-                  data={this.state.textProperties} 
-                  plugins={[plugins.LocalPlugin]}
-                  styleConfig={styleConfig}
-              >
-                  <RowDefinition>
-                    <ColumnDefinition id="propertyName" title="Property Name" customComponent={CustomColumn} customHeadingComponent={CustomHeading}/>
+:
+<div class = "d-flex justify-content-center">Waiting for selection...</div>}
+</div>
       
-                    <ColumnDefinition id="propertyType"  title="Property Type" customHeadingComponent={CustomHeading} />
-                    <ColumnDefinition id="" customComponent={SelectTextPropertyCheckBox} />
-                </RowDefinition>
-              </Griddle>
-            </div>
-            
-        </div>
-
-        {/*~~~~~~~~~~~~~~~~~Selected Numeric Properties~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/}
-        <div style ={{marginTop: "25px"}} class="text-center">
-          <h5><i class="far fa-edit"></i> Selected numeric properties that will be used to update the Test Form</h5 >   
-        </div>
-        <div class="d-flex justify-content-center">
-            <Griddle 
-                data={this.state.selectedNumericProperties} 
-                plugins={[plugins.LocalPlugin]}
-                styleConfig={styleConfig}
-            >
-                <RowDefinition>
-                <ColumnDefinition id="propertyName" title="Property Name" customComponent={CustomColumn} customHeadingComponent={CustomHeading}/>
-                
-            
-            </RowDefinition>
-            </Griddle>
-        </div>
-
-        {/*~~~~~~~~~~~~~~~~~Selected Option Properties~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/}
-        <div style ={{marginTop: "25px"}} class="text-center">
-          <h5><i class="far fa-edit"></i> Selected option properties that will be used to update the Test Form</h5 >   
-        </div>
-        <div class="d-flex justify-content-center">
-            <Griddle 
-                data={this.state.selectedOptionProperties} 
-                plugins={[plugins.LocalPlugin]}
-                styleConfig={styleConfig}
-            >
-                <RowDefinition>
-                <ColumnDefinition id="propertyName" title="Property Name" customComponent={CustomColumn} customHeadingComponent={CustomHeading}/>
-                
-            
-            </RowDefinition>
-            </Griddle>
-        </div>
-
-         {/*~~~~~~~~~~~~~~~~~Selected Text Properties~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/}
-        <div style ={{marginTop: "25px"}} class="text-center">
-          <h5><i class="far fa-edit"></i> Selected text properties that will be used to update the Test Form</h5 >   
-        </div>
-        <div class="d-flex justify-content-center">
-            <Griddle 
-                data={this.state.selectedTextProperties} 
-                plugins={[plugins.LocalPlugin]}
-                styleConfig={styleConfig}
-            >
-                <RowDefinition>
-                <ColumnDefinition id="propertyName" title="Property Name" customComponent={CustomColumn} customHeadingComponent={CustomHeading}/>
-                
-            
-            </RowDefinition>
-            </Griddle>
-        </div>
-        <div class="text-center">      
-          <button class="btn blue-gradient" onClick = { () => this.handleUpdateForm(this.state.formName,this.state.specimen,this.state.testType,this.state.selectedNumericProperties,this.state.selectedOptionProperties, this.state.selectedTextProperties)}>Update Form</button>
-        </div>    
-      </div>  
-            
-      
+     
       </div>
       :
-      <div>
-        <div style ={{marginTop: "50px"}} class = "d-flex justify-content-center">
-            <div class="spinner-border text-success" role="status">
-                <span class="sr-only">Loading...</span>
-            </div>
+      <div style ={{marginTop: "50px"}} class = "d-flex justify-content-center">
+          <div class="spinner-border text-success" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
         </div>
-      </div>
       }
       </div>
-      
+
       
       
     );
@@ -447,8 +301,9 @@ class UpdateFormFormBase extends Component {
 }
 
 
-const UpdateFormForm = withRouter(withFirebase(UpdateFormFormBase));
+
+const UpdateFormDisplay = withRouter(withFirebase(UpdateFormDisplayBase));
 const authCondition = authUser => !!authUser;
 export default withAuthorization(authCondition)(UpdateFormPage);
 
-export { UpdateFormForm };
+export { UpdateFormDisplay };

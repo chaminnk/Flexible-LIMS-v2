@@ -127,6 +127,8 @@ class AddUserFormBase extends Component {
          
         
           <div class="card w-50">
+          <div class="d-flex justify-content-center ">
+          <div class="card" style={{width: "18rem"}}>
             <div class="text-center">
                   <h3><i class="fas fa-user-plus"></i>  Add User</h3>
                   <hr class="mt-2 mb-2"></hr>
@@ -247,8 +249,8 @@ class AddUserFormBase extends Component {
               </div>
              
             </div>
-   
-   
+          </div>
+          </div>
       </div>
       </div>
 

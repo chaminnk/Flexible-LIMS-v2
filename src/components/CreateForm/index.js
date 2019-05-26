@@ -19,7 +19,7 @@ const CreateFormPage = () => ( // for the use of routing
 class CreateFormFormBase extends Component {
   constructor(props) {
     super(props);
-
+    const timeStamp = new Date();
     this.state = ({ 
       addPropertyLoading: false,
       formName: '',
@@ -32,7 +32,7 @@ class CreateFormFormBase extends Component {
       selectedTextProperties: [],
       specimen: '',
       testType :'',
-
+      timeStamp: String(timeStamp),
     fire_loaded: false,
     fire_loaded2: false
      })
@@ -154,7 +154,9 @@ class CreateFormFormBase extends Component {
         testType:testType,
         numericProperties: numericProperties,
         optionProperties: optionProperties,
-        textProperties:textProperties
+        textProperties:textProperties,
+        createdBy : firebase.auth().currentUser.email,
+        createdDate : this.state.timeStamp 
     }).then(() => {
       alert("Form successfully created!");
     this.setState({
@@ -455,3 +457,4 @@ const authCondition = authUser => !!authUser;
 export default withAuthorization(authCondition)(CreateFormPage);
 
 export { CreateFormForm };
+export {CreateFormFormBase}

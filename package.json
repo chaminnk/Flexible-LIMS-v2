@@ -49,13 +49,14 @@
   ],
   "devDependencies": {
     "canvas": "^2.5.0",
+    "chromedriver": "^74.0.0",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.13.1",
-    "react-test-renderer": "^16.8.6"
+    "geckodriver": "^1.16.2",
+    "react-test-renderer": "^16.8.6",
+    "selenium-webdriver": "^3.6.0"
   },
-  
   "engines": {
     "node": "10.15.0"
   }
-
 }

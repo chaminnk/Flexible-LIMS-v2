@@ -14,7 +14,7 @@ const AccountPage = () => (
     {authUser => (
       <div>
         <AccountNavBar/>
-        <h1>Account: {authUser.email}</h1>
+        
 
         <AccountPageForm/>
       </div>
@@ -182,7 +182,7 @@ class AccountPageFormBase extends Component {
       
          
         
-          <div class="card w-25">
+      <div class="card" style={{width: "50em"}}>
             <div class="text-center">
                   <h3><i class="fas fa-user-plus"></i> Update Profile</h3>
                   <hr class="mt-2 mb-2"></hr>

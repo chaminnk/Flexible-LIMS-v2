@@ -97,7 +97,7 @@ class SignInFormBase extends Component {
                 </div>
                 </div>
                 <div class="text-center">
-                <button class="btn blue-gradient" onClick = { () => this.loginUser(this.state.email, this.state.password)}>Log In</button>
+                <button id = "login_button" class="btn blue-gradient" onClick = { () => this.loginUser(this.state.email, this.state.password)}>Log In</button>
                 <PasswordForgetLink />
                 </div>     
              

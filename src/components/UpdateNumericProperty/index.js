@@ -39,6 +39,7 @@ class UpdateNumericPropertyPageFormBase extends Component {
       timeStamp: String(timeStamp),
       loading: true,
       fire_loaded1: false,
+      fire_loaded2: false,
       selected: false
     })
 
@@ -48,6 +49,14 @@ class UpdateNumericPropertyPageFormBase extends Component {
   userId1 = firebase.auth().currentUser.uid;
   
   async componentWillMount() {
+    await firebase.database().ref('users/'+firebase.auth().currentUser.uid).once('value',(snapshot) => {
+      this.userType = snapshot.val().userType;
+      this.setState({fire_loaded1: true});
+    });
+    if (this.userType === 'patient' || this.userType === 'unapproved' ){
+        alert("You don't have permission to view this page");
+        this.props.history.push(ROUTES.HOME);
+    }
     firebase.database().ref('properties/').orderByChild('propertyType').on('value', (snapshot) => {
       this.properties = [];
       this.properties2= [];
@@ -69,7 +78,7 @@ class UpdateNumericPropertyPageFormBase extends Component {
         })
         
       }) 
-      this.setState({fire_loaded1:true});
+      this.setState({fire_loaded2:true});
 
       this.setState({properties:this.properties});
       this.setState({properties2:this.properties2});
@@ -113,7 +122,7 @@ class UpdateNumericPropertyPageFormBase extends Component {
         alert("Please enter a numerical high value");
         return;
     }
-    
+    propertyName=propertyName.charAt(0).toUpperCase()+propertyName.slice(1);
     let updates = {};
     firebase.database().ref('/forms').orderByChild("numericProperties").once('value').then(snap => {
       let formKeys = [];
@@ -249,7 +258,7 @@ class UpdateNumericPropertyPageFormBase extends Component {
       
 
       <div>
-      {this.state.fire_loaded1 ?
+      {this.state.fire_loaded1 && this.state.fire_loaded2 ?
       <div>
 
 <div style ={{marginTop: "25px"}} >
@@ -291,7 +300,7 @@ class UpdateNumericPropertyPageFormBase extends Component {
         
     <div class="card w-25">
       <div class="text-center">
-            <h3><i class="fas fa-user-plus"></i> Update Numeric Property</h3>
+            <h3><i class="far fa-edit"></i> Update Numeric Property</h3>
             <hr class="mt-2 mb-2"></hr>
       </div>
       <div class="md-form">

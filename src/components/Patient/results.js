@@ -140,11 +140,12 @@ class ViewResultsDisplayBase extends Component {
     if(this.state.tests.length===0) {
       
       return (
-        <div class = "d-flex justify-content-center">
-          <div class="spinner-grow text-primary" role="status">
-            <span class="sr-only">Loading...</span>
-          </div>
+        <div style ={{marginTop: "50px"}} className = "d-flex justify-content-center">
+            <div className="spinner-border text-success" role="status">
+                <span className="sr-only">Loading...</span>
+            </div>
         </div>
+
       );
     }
     else{

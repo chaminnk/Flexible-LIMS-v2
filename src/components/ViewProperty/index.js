@@ -42,19 +42,19 @@ class ViewPropertiesDisplayBase extends Component {
     let dataType = this.state.dataTypes[key]
     if(dataType.propertyDataType==='Numeric'){
         this.props.history.push({
-            pathname: '/view-numeric-property',
+            pathname: '/view-numeric-properties',
             
         })
     }
     else if(dataType.propertyDataType==='Option'){
         this.props.history.push({
-            pathname: '/view-option-property',
+            pathname: '/view-option-properties',
            
         })
     }
     else if(dataType.propertyDataType==='Text'){
       this.props.history.push({
-          pathname: '/view-text-property',
+          pathname: '/view-text-properties',
           
       })
   }
@@ -89,6 +89,7 @@ class ViewPropertiesDisplayBase extends Component {
       {this.state.fire_loaded1  ?  // only if the firebase data are loaded or admins and laboratory data operators can view this page
       <div style ={{marginTop: "50px"}} >
         <div class="d-flex justify-content-center">
+          
             <Griddle 
                 data={this.state.dataTypes} 
                 plugins={[plugins.LocalPlugin]}

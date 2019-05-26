@@ -36,9 +36,7 @@ async componentWillMount() {
 render() {
   return (
     <div>
-      {this.userType === 'patient' ?
-      <PatientNavigation />
-      :
+      {this.userType === 'admin' || this.userType === 'ldo' ?
       <MDBNavbar color="default-color" dark expand="md">
       <MDBNavbarBrand>
         <strong className="white-text">Flexible LIMS</strong>
@@ -76,7 +74,7 @@ render() {
               <MDBDropdownMenu className="dropdown-default" right>
                 <MDBDropdownItem href={ROUTES.VIEW_PROPERTIES}>View Properties</MDBDropdownItem>
                 
-                <MDBDropdownItem href={ROUTES.VIEW_FORMS}>View Forms</MDBDropdownItem>
+                <MDBDropdownItem href={ROUTES.FORM_LIST}>View Forms</MDBDropdownItem>
                 <MDBDropdownItem href={ROUTES.VIEW_USERS}>View Users</MDBDropdownItem>
               </MDBDropdownMenu>
             </MDBDropdown>
@@ -91,7 +89,7 @@ render() {
               </MDBDropdownToggle>
               <MDBDropdownMenu className="dropdown-default" right>
                 <MDBDropdownItem href={ROUTES.UPDATE_PROPERTY}>Update Property</MDBDropdownItem>
-                <MDBDropdownItem href={ROUTES.CREATE_FORM}>Create Form</MDBDropdownItem>
+                <MDBDropdownItem href={ROUTES.UPDATE_FORM}>Update Form</MDBDropdownItem>
                 <MDBDropdownItem href={ROUTES.PATIENT_LIST}>Update Test Result</MDBDropdownItem>
               </MDBDropdownMenu>
             </MDBDropdown>
@@ -129,6 +127,9 @@ render() {
         </MDBNavbarNav>
       </MDBCollapse>
     </MDBNavbar>
+      
+      :
+      <PatientNavigation />
       }
     </div>
     

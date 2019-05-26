@@ -70,7 +70,7 @@ class UpdateOptionPropertyPageFormBase extends Component {
                 propertyKey: child.key,
                 propertyName: child.val().propertyName,
   
-                options: child.val().options,
+                
                 
               })
               this.propertyDisplay.push({
@@ -87,10 +87,11 @@ class UpdateOptionPropertyPageFormBase extends Component {
         
         
       }) 
-      this.setState({fire_loaded1:true});
+      
 
       this.setState({properties:this.properties});
       this.setState({propertyDisplay:this.propertyDisplay});
+      this.setState({fire_loaded1:true});
     });
     this.setState({ loading: false });
     
@@ -99,45 +100,32 @@ class UpdateOptionPropertyPageFormBase extends Component {
     this.setState({selected:true});
     this.setState({propertyKey:this.state.properties[key].propertyKey});
     this.setState({propertyName: this.state.properties[key].propertyName});
-    this.setState({options: this.state.properties[key].options});
+    
    
 
   }
-  updateProperty = (propertyKey,propertyName, options) => {
-    let updates = {};
+  updateProperty = (propertyKey,propertyName) => {
+
     //proprty validation
     if(propertyName === '' ){
         alert("Property name field cannot be empty!");
         return;
     }
-    else if(options.length === 0 ){
-      alert("You must add an option to create the property!");
-      return;
-    }
-    else if( options.length>0){
-      var c=0;
-      options.forEach((option)=>{
-          if(option.optionValue===''){
-              c=c+1;
-          }
-      })
-      if(c!==0){
-          alert("Attention! "+c+" options are empty. Remove them to continue");
-          return;
-      }
-    }
+    
+    
     propertyName=propertyName.charAt(0).toUpperCase()+propertyName.slice(1);
-
+    let updates = {};
     firebase.database().ref('/forms').orderByChild("optionProperties").once('value').then(snap => {
       let formKeys = [];
-  
+
+ 
       snap.forEach((child)=>{
-        
+
           if("optionProperties" in child.val()){
            
             child.val().optionProperties.forEach((c)=>{
               if(c.propertyKey===propertyKey){
-                let index = child.val().numericProperties.findIndex(x => x.propertyKey === propertyKey) ;
+                let index = child.val().optionProperties.findIndex(x => x.propertyKey === propertyKey) ;
                 formKeys.push({formKey:child.key, index: index});
                 
               }
@@ -149,21 +137,53 @@ class UpdateOptionPropertyPageFormBase extends Component {
       })
 
       
-      let updates = {};
+      
       formKeys.forEach(key => {
         updates['forms/'+key.formKey+'/optionProperties/'+key.index+'/propertyName'] = propertyName;
-        updates['forms/'+key.formKey+'/optionProperties/'+key.index+'/options'] = options;
         
       });
-      updates['/properties/' + propertyKey + '/propertyName'] = propertyName;
-      updates['/properties/' + propertyKey + '/options'] = options;
+      this.updateDatabase(updates);
+    
+    })
+    firebase.database().ref('/testResults').orderByKey().once('value').then(snap => {
+      let testKeys = [];
+
+ 
+      snap.forEach((child)=>{
+        
+          if("optionProperties" in child.val()){
+           
+            child.val().optionProperties.forEach((c)=>{
+              if(c.propertyKey===propertyKey){
+                let index = child.val().optionProperties.findIndex(x => x.propertyKey === propertyKey) ;
+                testKeys.push({testKey:child.key, index: index});
+                
+              }
+            })
+            
+             
+          }
+        
+      })
+
       
-      updates['/properties/' + propertyKey + '/createdBy'] = firebase.auth().currentUser.email;
-      updates['/properties/' + propertyKey + '/createdDate'] =  this.state.timeStamp;
+      
+      testKeys.forEach(key => {
+        updates['testResults/'+key.testKey+'/optionProperties/'+key.index+'/propertyName'] = propertyName;
+        
+      });
+      this.updateDatabase(updates);
+     
+    
+    })
+    updates['/properties/' + propertyKey + '/propertyName'] = propertyName;
+      
+    updates['/properties/' + propertyKey + '/createdBy'] = firebase.auth().currentUser.email;
+    updates['/properties/' + propertyKey + '/createdDate'] =  this.state.timeStamp;
 
 
 
-    firebase.database().ref().update(updates,function(error){
+      firebase.database().ref().update(updates,function(error){
         if(error){
           alert(error.message);
         }
@@ -171,41 +191,20 @@ class UpdateOptionPropertyPageFormBase extends Component {
           alert("Property details successfully updated.");
         }
       });
-     
-    
-    })
-    
-    
-
-    
-    
-
-    
-    
-    
     
     
   }
-    
-  handleFormoptionValueChange = idx => e => {
-    const newoptionValues = this.state.options.map((option, sidx) => {
-      if (idx !== sidx) return option;
-      return { ...option, optionValue: e.target.value };
+  updateDatabase = (updates) =>{
+    firebase.database().ref().update(updates,function(error){
+      if(error){
+        alert(error.message);
+      }
+      else{
+        return true
+      }
     });
-
-    this.setState({ options: newoptionValues });
-  };
-
-  handleAddOption = () => {
-    this.setState({
-      options: this.state.options.concat([{ optionValue: "" }])
-    });
-  };
-  handleRemoveOption = idx => () => {
-    this.setState({
-      options: this.state.options.filter((s, sidx) => idx !== sidx)
-    });
-  };
+  }  
+  
   onChange = event => {
     this.setState({ [event.target.name]: event.target.value }); // set the value to the corresponding name of the state in an onChange event
   };
@@ -235,7 +234,7 @@ class UpdateOptionPropertyPageFormBase extends Component {
       pageSize: 3,
     }
 
-    console.log(this.state.options);
+
     return (
       
 
@@ -251,7 +250,7 @@ class UpdateOptionPropertyPageFormBase extends Component {
     <div class="d-flex justify-content-center">
         <Griddle 
             pageProperties={pageProperties}
-            data={this.state.properties} 
+            data={this.state.propertyDisplay} 
             plugins={[plugins.LocalPlugin]}
             styleConfig={styleConfig}
             components={{
@@ -279,9 +278,9 @@ class UpdateOptionPropertyPageFormBase extends Component {
       
          
         
-    <div class="card w-25">
+    <div class="card  " style={{width: "50em"}}>
       <div class="text-center">
-            <h3><i class="fas fa-user-plus"></i> Update Numeric Property</h3>
+            <h3><i class="far fa-edit"></i> Update Option Property</h3>
             <hr class="mt-2 mb-2"></hr>
       </div>
       <div class="md-form">
@@ -296,40 +295,11 @@ class UpdateOptionPropertyPageFormBase extends Component {
         />
         </div>
       </div>
-      <div class="md-form">
-                <div class="text-center">
-                {this.state.options.map((option,idx)=>{
-                    return(
-                        <div>
-                            <input
-                                type="text"
-                                placeholder={`Option #${idx + 1} value`}
-                                value={option.optionValue}
-                                onChange= {this.handleFormoptionValueChange(idx)} 
-                            />
-                            <button
-                                type="button"
-                                onClick={this.handleRemoveOption(idx)}
-                                class="btn btn-outline-danger waves-effect"
-                                >
-                                Remove
-                            </button>
-                        </div>
-                    )
-                })
-                }
-                
-                 </div>
-                </div>
-                <div class="text-center">
-                <button class="btn blue-btn btn-outline-success waves-effect" onClick = { this.handleAddOption}>Add Option</button>
-               
-                
-                </div>   
+      
 
       
       <div style ={{marginTop: "50px"}} class="text-center">                    
-        <button class="btn aqua-gradient" onClick = { () => this.updateProperty(this.state.propertyKey,this.state.propertyName, this.state.options)} >Update Property</button>
+        <button class="btn aqua-gradient" onClick = { () => this.updateProperty(this.state.propertyKey,this.state.propertyName)} >Update Property</button>
         </div>
        
       </div>

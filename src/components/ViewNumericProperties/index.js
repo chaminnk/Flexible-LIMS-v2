@@ -6,16 +6,16 @@ import firebase from 'firebase';
 import { withAuthorization } from '../Session';
 import Griddle, { plugins, RowDefinition, ColumnDefinition} from 'griddle-react';
 import * as ROUTES from '../../constants/routes';
-const ViewPropertiesPage = () => ( // for the use of routing
+const ViewNumericPropertiesPage = () => ( // for the use of routing
   <div>
     
-    <ViewPropertiesDisplay />
+    <ViewNumericPropertiesDisplay />
   </div>
 );
 
 
 
-class ViewPropertiesDisplayBase extends Component {
+class ViewNumericPropertiesDisplayBase extends Component {
   constructor(props) {
     super(props);
   
@@ -33,7 +33,7 @@ class ViewPropertiesDisplayBase extends Component {
         alert("You don't have permission to view this page");
         this.props.history.push(ROUTES.HOME);
     }
-    firebase.database().ref('properties/').orderByChild('propertyName').once('value', (snapshot) => {
+    firebase.database().ref('properties/').orderByChild('propertyType').equalTo("Numeric").once('value', (snapshot) => {
       this.fetchedDatas = [];
       var x=0;
       snapshot.forEach((child)=>{
@@ -109,7 +109,7 @@ class ViewPropertiesDisplayBase extends Component {
                 <ColumnDefinition id="lowValue" title="Low Value" customHeadingComponent={CustomHeading} />
                 <ColumnDefinition id="highValue" title="High Value" customHeadingComponent={CustomHeading} />
                 <ColumnDefinition id="propertyType"  title="Property Type" customHeadingComponent={CustomHeading} />
-                 <ColumnDefinition id="" customComponent={DeletePropertyButton} />
+                <ColumnDefinition id="" customComponent={DeletePropertyButton} />
             </RowDefinition>
             </Griddle>
         </div>
@@ -130,8 +130,8 @@ class ViewPropertiesDisplayBase extends Component {
 
 
 
-const ViewPropertiesDisplay = withRouter(withFirebase(ViewPropertiesDisplayBase));
+const ViewNumericPropertiesDisplay = withRouter(withFirebase(ViewNumericPropertiesDisplayBase));
 const authCondition = authUser => !!authUser;
-export default withAuthorization(authCondition)(ViewPropertiesPage);
+export default withAuthorization(authCondition)(ViewNumericPropertiesPage);
 
-export { ViewPropertiesDisplay };
+export { ViewNumericPropertiesDisplay };

@@ -82,7 +82,7 @@ class ViewTestFormBase extends Component {
 
         <div style ={{marginTop: "25px"}} >
             <div class="d-flex justify-content-center" >
-                <div class="card w-25">
+                <div class="card" style={{width: "50em"}}>
                     <div class="md-form">
                         <div class="text-center">
                             Patient name : {this.state.test.firstName} {this.state.test.lastName}

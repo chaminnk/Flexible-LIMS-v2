@@ -220,19 +220,19 @@ class CreateResultDisplayBase extends Component {
       this.setState({optionProperties2: this.optionProperties2});
       // console.log(this.properties);
       var cards2 = [];
-      for (var i = 0; i < this.state.optionProperties.length; i++) {
+      for (var j = 0; j < this.state.optionProperties.length; j++) {
         
         cards2.push(<div style ={{marginTop: "25px"}} class="d-flex justify-content-center ">
         <div class="card w-50">
         <div class="md-form">
                         <div class="text-center">
-                      {this.state.optionProperties[i].propertyName} : 
+                      {this.state.optionProperties[j].propertyName} : 
                       <div class="text-center">
                       <Select
-                        name = {this.state.optionProperties[i].propertyKey}
+                        name = {this.state.optionProperties[j].propertyKey}
                         
-                        options={this.state.optionProperties[i].optionsList.map(t=>({value: t, label: t}))}
-                        placeholder={this.state.optionProperties[i].optionsList[0]}
+                        options={this.state.optionProperties[j].optionsList.map(t=>({value: t, label: t}))}
+                        placeholder={this.state.optionProperties[j].optionsList[0]}
                         onChange={this.onChange3}
                       />
                       </div>
@@ -275,14 +275,14 @@ class CreateResultDisplayBase extends Component {
       this.setState({textProperties2: this.textProperties2});
      
       var cards3 = [];
-      for (var i = 0; i < this.state.textProperties.length; i++) {
+      for (var k = 0; k < this.state.textProperties.length; k++) {
         
         cards3.push(<div style ={{marginTop: "25px"}} class="d-flex justify-content-center ">
         <div class="card w-50">
         <div class="md-form">
                         <div class="text-center">
-                      {this.state.textProperties[i].propertyName} : <input
-                        name={this.state.textProperties[i].propertyKey}
+                      {this.state.textProperties[k].propertyName} : <input
+                        name={this.state.textProperties[k].propertyKey}
                 
                         type="text"
                         placeholder="Enter Value"

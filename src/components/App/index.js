@@ -10,7 +10,10 @@ import HomePage from '../Home';
 import AccountPage from '../Account';
 import AddPropertyPage from '../AddProperty';
 import ViewPropertiesPage from '../ViewProperty';
+import ViewNumericPropertiesPage from '../ViewNumericProperties';
+import ViewOptionPropertiesPage from '../ViewOptionProperties';
 import ViewUsersPage from '../ViewUser';
+import FormListPage from '../ViewForms/formList';
 import ViewFormsPage from '../ViewForms';
 import PasswordChangeForm from '../PasswordChange';
 import CreateFormPage from '../CreateForm';
@@ -29,6 +32,7 @@ import UpdateFormPage from '../UpdateForm';
 import PatientListPage from '../UpdateTestResult/patientList';
 import TestListPage from '../UpdateTestResult/testList';
 import UpdateTestPage from '../UpdateTestResult/index';
+
 import * as ROUTES from '../../constants/routes';
 
 
@@ -55,6 +59,8 @@ class App extends Component {
           <Route exact path={ROUTES.ACCOUNT} component={AccountPage} />
           <Route exact path={ROUTES.ADD_PROPERTY} component={AddPropertyPage} />
           <Route exact path={ROUTES.VIEW_PROPERTIES} component={ViewPropertiesPage} />
+          <Route exact path={ROUTES.VIEW_NUMERIC_PROPERTIES} component={ViewNumericPropertiesPage} />
+          <Route exact path={ROUTES.VIEW_OPTION_PROPERTIES} component={ViewOptionPropertiesPage} />
           <Route exact path={ROUTES.VIEW_USERS} component={ViewUsersPage} />
           <Route exact path={ROUTES.VIEW_FORMS} component={ViewFormsPage} />
           <Route exact path={ROUTES.PASSWORD_UPDATE} component={PasswordChangeForm} />
@@ -74,6 +80,8 @@ class App extends Component {
           <Route exact path={ROUTES.PATIENT_LIST} component={PatientListPage} />
           <Route exact path={ROUTES.TEST_LIST} component={TestListPage} />
           <Route exact path={ROUTES.UPDATE_TEST} component={UpdateTestPage} />
+          <Route exact path={ROUTES.FORM_LIST} component={FormListPage} />
+
           
 
         </div>
