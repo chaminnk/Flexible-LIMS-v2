@@ -95,17 +95,7 @@ class UpdatePropertyDisplayBase extends Component {
      
     const CustomColumn = ({value}) => <span style={{ color: '#0000AA' }}>{value}</span>;
     const CustomHeading = ({title}) => <span style={{ color: '#AA0000' }}>{title}</span>;
-    // if(this.state.dataTypes.length===0) {
-    //     console.log(this.state.dataTypes);
-    //   return (
-    //     <div class = "d-flex justify-content-center">
-    //       <div class="spinner-grow text-primary" role="status">
-    //         <span class="sr-only">Loading...</span>
-    //       </div>
-    //     </div>
-    //   );
-    // }
-    // else{
+
      
       return (
      

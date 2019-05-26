@@ -23,3 +23,4 @@ export const UPDATE_TEXT_PROPERTY = '/update-text-property';
 export const UPDATE_FORM = '/update-form';
 export const PATIENT_LIST ='/patient-list';
 export const TEST_LIST = '/view-test-list';
+export const UPDATE_TEST = '/update-test-result';

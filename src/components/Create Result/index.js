@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Select from 'react-select';
 
 import {  withRouter } from 'react-router-dom';
+import * as ROUTES from '../../constants/routes';
 
 import { withFirebase } from '../Firebase';
 import firebase from 'firebase';
@@ -23,7 +24,7 @@ class CreateResultDisplayBase extends Component {
     super(props);
     const timeStamp = new Date();
   
-    this.state = { firstName:'', lastName: '', email: '', age:'',gender: '', timeStamp: String(timeStamp), referredBy: '', formName:'', testFormKey: '',propertyName: '', unitOfMeasurement: '', referenceRange:'', propertyValue: '', selectedOption: '', loading: true,fire_loaded1: false, fire_loaded2: false, fire_loaded3:false,fire_loaded4:false, users:[], forms:  [], properties: [], properties2: [], optionProperties: [], optionProperties2:[], textProperties: [], textProperties2:[], cards:[],cards2: [], cards3: []};
+    this.state = { firstName:'', lastName: '', email: '', age:'',gender: '', timeStamp: String(timeStamp), referredBy: '', formName:'', testFormKey: '',propertyName: '', unitOfMeasurement: '', referenceRange:'', propertyValue: '', selectedOption: '', loading: true,fire_loaded:false,fire_loaded1: false, fire_loaded2: false, fire_loaded3:false,fire_loaded4:false, users:[], forms:  [], properties: [], properties2: [], optionProperties: [], optionProperties2:[], textProperties: [], textProperties2:[], cards:[],cards2: [], cards3: []};
      
   }
   // handleChange(event) {
@@ -34,7 +35,15 @@ class CreateResultDisplayBase extends Component {
   fetchedDatas= [];
   fetchedDatas2= [];
   async componentWillMount() {
-    
+    await firebase.database().ref('users/'+firebase.auth().currentUser.uid).once('value',(snapshot) => {
+      this.userType = snapshot.val().userType;
+      this.setState({fire_loaded:true});
+       this.forceUpdate();
+    });
+    if (this.userType === 'patient' || this.userType === 'unapproved'){
+        alert("You don't have permission to view this page");
+        this.props.history.push(ROUTES.HOME);
+    }
     firebase.database().ref('users/').orderByChild('firstName').on('value', (snapshot) => {
       this.fetchedDatas = [];
       var x=0;
@@ -192,6 +201,7 @@ class CreateResultDisplayBase extends Component {
                 this.optionProperties2.push({
                   propertyKey: obj.propertyKey,
                   propertyName: obj.propertyName,
+                  optionsList: obj.optionsList,
                   selectedOption: '',
                   
                   
@@ -383,7 +393,11 @@ class CreateResultDisplayBase extends Component {
 
       /* ~~~~~~~~~~~~~~~~PATIENT SELECTION~~~~~~~~~~~~~~~~~~~~~~ */  
 
+      
+        
 
+    <div>
+    {this.state.fire_loaded && this.state.fire_loaded1 && this.state.fire_loaded2 ?
       <div style ={{marginTop: "25px"}} >
         
         
@@ -575,7 +589,7 @@ class CreateResultDisplayBase extends Component {
             <div class="card w-50">
               <div class="text-center">
               
-                    <h5><i class="fas fa-user-plus"></i>  {this.state.formName}</h5>
+                    <h5><i class="far fa-edit"></i>  {this.state.formName}</h5>
                     <hr class="mt-2 mb-2"></hr>
               </div>
               <div class="md-form">
@@ -618,8 +632,16 @@ class CreateResultDisplayBase extends Component {
         </div>
 
       </div>  
-
-      
+      :
+      <div>
+        <div style ={{marginTop: "50px"}} class = "d-flex justify-content-center">
+                <div class="spinner-border text-success" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+      </div>
+    }
+    </div>
       
     );
   }

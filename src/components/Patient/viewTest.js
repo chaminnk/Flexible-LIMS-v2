@@ -105,7 +105,7 @@ class ViewTestFormBase extends Component {
                     </div>
                     <div class="md-form">
                         <div class="text-center">
-                            Date : {this.state.test.timeStamp} 
+                            Date : {this.state.test.createdDate} 
                         </div>
                     </div>
                     <div class="md-form">

@@ -54,7 +54,7 @@ class CreateOptonPropertyFormBase extends Component {
             
         }) 
         this.setState({properties:this.fetchedDatas});
-        
+        this.setState({fire_loaded2:true});
         //this.forceUpdate();
       });
   }
@@ -144,15 +144,12 @@ class CreateOptonPropertyFormBase extends Component {
     return (
     
     <div >
-    {/* {this.userType === 'admin' ? */}
+        {this.state.fire_loaded === true && this.state.fire_loaded2 === true ?
         
 
-<div  class="d-flex justify-content-center">
 
-
-</div>
       <div style ={{marginTop: "50px"}} class="d-flex justify-content-center ">
-          <div class="card w-25" >
+          <div class="card" style={{width: "18rem"}}>
             <div class="text-center">
                 <h3><i class="far fa-edit"></i>Create Option Property</h3>
                 
@@ -211,11 +208,16 @@ class CreateOptonPropertyFormBase extends Component {
               </div>
          
         </div>
-         {/* :
-         <div>
-         <h3>You do not have permission  to view this page</h3>
-         </div>
-         } */}
+        :
+        <div>
+            <div style ={{marginTop: "50px"}} class = "d-flex justify-content-center">
+                <div class="spinner-border text-success" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        </div>
+        }
+         
         </div>
        
       

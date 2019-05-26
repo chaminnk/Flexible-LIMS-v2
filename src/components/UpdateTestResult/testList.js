@@ -44,8 +44,9 @@ class TestListDisplayBase extends Component {
       snapshot.forEach((child)=>{
             this.fetchedDatas.push({
                 
-
+                
                 id: x,
+                testResultKey: child.key,
                 age: child.val().age,
                 createdBy: child.val().createdBy,
                 createdDate: child.val().createdDate,

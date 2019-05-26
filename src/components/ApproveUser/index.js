@@ -100,7 +100,7 @@ class ApproveUsersDisplayBase extends Component {
     var updates = {};
     updates['/users/' + userKey + '/userType'] = userType;
     firebase.database().ref().update(updates).then(function(){
-      alert("User type successfully updated to "+{userType});
+      alert("User type successfully updated to "+toString(userType));
     }).catch(function(error){
       alert(error.message);
     });
@@ -176,7 +176,7 @@ class ApproveUsersDisplayBase extends Component {
                 
             </div>
             <div  style ={{marginTop: "25px"}} class="d-flex justify-content-center ">
-            <div class="card w-25">
+            <div class="card w-50">
                             <div class="md-form">
                             <div class="text-center">
                             Selected User : <input
@@ -204,10 +204,10 @@ class ApproveUsersDisplayBase extends Component {
             </div>
         </div>
         :
-        <div class = "d-flex justify-content-center">
-          <div class="spinner-grow text-primary" role="status">
-            <span class="sr-only">Loading...</span>
-          </div>
+        <div style ={{marginTop: "50px"}} class = "d-flex justify-content-center">
+            <div class="spinner-border text-success" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
         </div>
         }
       </div>  

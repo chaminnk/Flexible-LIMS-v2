@@ -137,7 +137,7 @@ class CreateTextPropertyFormBase extends Component {
 
 
       <div style ={{marginTop: "50px"}} className="d-flex justify-content-center ">
-          <div className="card w-25" >
+          <div class="card" style={{width: "18rem"}}>
             <div className="text-center">
                 <h3><i className="far fa-edit"></i>Create Text Property</h3>
                 

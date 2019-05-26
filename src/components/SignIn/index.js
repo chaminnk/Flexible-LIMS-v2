@@ -68,7 +68,7 @@ class SignInFormBase extends Component {
     return (
       <div style ={{marginTop: "50px"}} >
       <div class="d-flex justify-content-center ">
-          <div class="card w-25" >
+      <div class="card" style={{width: "18rem"}}>
             <div class="text-center">
                 <h3><i class="fas fa-sign-in-alt"></i> Log In</h3>
                 

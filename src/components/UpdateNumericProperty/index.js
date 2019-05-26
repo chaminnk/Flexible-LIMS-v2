@@ -89,27 +89,27 @@ class UpdateNumericPropertyPageFormBase extends Component {
   updateProperty = (propertyKey,propertyName, unitOfMeasurement, lowValue, highValue) => {
     // let updates = {};
     //proprty validation
-    if(this.state.propertyName === '' ){
+    if(propertyName === '' ){
         alert("Property name field cannot be empty!");
         return;
     }
-    else if(this.state.unitOfMeasurement === '' ){
+    else if(unitOfMeasurement === '' ){
         alert("Unit of measurement field cannot be empty!");
         return;
     }
-    else if(this.state.lowValue === '' ){
+    else if(lowValue === '' ){
         alert("Low value of reference range  field cannot be empty!");
         return;
     }
-    else if(this.state.highValue === '' ){
+    else if(highValue === '' ){
         alert("High value of reference range field cannot be empty!");
         return;
     }
-    else if (!(/[0-9.]+/.test(this.state.lowValue))) { 
+    else if (!(/[0-9.]+/.test(lowValue))) { 
         alert("Please enter a numerical low value");
         return;
     }
-    else if (!(/[0-9.]+/.test(this.state.highValue))) { 
+    else if (!(/[0-9.]+/.test(highValue))) { 
         alert("Please enter a numerical high value");
         return;
     }

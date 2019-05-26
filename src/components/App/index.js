@@ -28,6 +28,7 @@ import UpdateTextPropertyPage from '../UpdateTextProperty';
 import UpdateFormPage from '../UpdateForm';
 import PatientListPage from '../UpdateTestResult/patientList';
 import TestListPage from '../UpdateTestResult/testList';
+import UpdateTestPage from '../UpdateTestResult/index';
 import * as ROUTES from '../../constants/routes';
 
 
@@ -72,6 +73,7 @@ class App extends Component {
           <Route exact path={ROUTES.UPDATE_FORM} component={UpdateFormPage} />
           <Route exact path={ROUTES.PATIENT_LIST} component={PatientListPage} />
           <Route exact path={ROUTES.TEST_LIST} component={TestListPage} />
+          <Route exact path={ROUTES.UPDATE_TEST} component={UpdateTestPage} />
           
 
         </div>
