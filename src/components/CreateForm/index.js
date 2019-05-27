@@ -100,7 +100,7 @@ class CreateFormFormBase extends Component {
             propertyType: child.val().propertyType
           })
           y=y+1;
-          //console.log(this.optionDatas);
+          
         }
         else if(child.val().propertyType==="Text"){
          
@@ -112,7 +112,7 @@ class CreateFormFormBase extends Component {
            
           });
           z=z+1;
-          //console.log(this.optionDatas);
+          
         }
           
          
@@ -311,8 +311,7 @@ class CreateFormFormBase extends Component {
         
         
         <div  style ={{marginTop: "25px"}} class="d-flex justify-content-center">
-            {/* {console.log(this.numericDatas)} */}
-            {/* {console.log(this.state.properties)} */}
+            
             <div class="d-flex justify-content-center">
               <Griddle 
                   pageProperties={pageProperties}
@@ -333,8 +332,7 @@ class CreateFormFormBase extends Component {
             
         </div>
         <div style ={{marginTop: "25px"}} class="d-flex justify-content-center">
-            {/* {console.log(this.optionDatas)}
-            {console.log(this.state.properties)} */}
+            
             <div class="d-flex justify-content-center">
               <Griddle 
                   pageProperties={pageProperties}
@@ -354,8 +352,7 @@ class CreateFormFormBase extends Component {
         </div>
 
         <div style ={{marginTop: "25px"}} class="d-flex justify-content-center">
-            {/* {console.log(this.optionDatas)}
-            {console.log(this.state.properties)} */}
+            
             <div class="d-flex justify-content-center">
               <Griddle 
                   pageProperties={pageProperties}

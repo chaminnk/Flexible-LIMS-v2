@@ -117,15 +117,7 @@ class ViewUsersDisplayBase extends Component {
                 data={this.fetchedDatas} 
                 plugins={[plugins.LocalPlugin]}
                 styleConfig={styleConfig}
-                components={{
-                  RowEnhancer: OriginalComponent =>
-                    props => (
-                      <OriginalComponent
-                        {...props}
-                        onClick={() => console.log(`Click Row ${props.griddleKey}`)}
-                        />
-                    ),
-                }}
+                
             >
                 <RowDefinition>
                 <ColumnDefinition id="firstName" title="First Name" customComponent={CustomColumn} customHeadingComponent={CustomHeading}/>

@@ -84,7 +84,7 @@ class CreateResultDisplayBase extends Component {
       
         });
         y=y+1;
-        //console.log(this.fetchedDatas2 );    
+        
       }) 
       
       this.setState({forms:this.fetchedDatas2});
@@ -149,9 +149,9 @@ class CreateResultDisplayBase extends Component {
                   highValue: obj.highValue,
                   propertyValue: ''
                 });
-                //console.log(z);  
+                
                 z=z+1;  
-                //console.log(z);    
+                
           
               
               this.setState({fire_loaded3:true});
@@ -161,7 +161,7 @@ class CreateResultDisplayBase extends Component {
       })
       this.setState({properties: this.properties});
       this.setState({properties2: this.properties2});
-      // console.log(this.properties);
+      
       var cards = [];
       for (var i = 0; i < this.state.properties.length; i++) {
         
@@ -206,9 +206,9 @@ class CreateResultDisplayBase extends Component {
                   
                   
                 });
-                //console.log(z);  
+                
                 z=z+1;  
-                //console.log(z);    
+                
           
               
               //this.setState({fire_loaded3:true});
@@ -218,7 +218,7 @@ class CreateResultDisplayBase extends Component {
       })
       this.setState({optionProperties: this.optionProperties});
       this.setState({optionProperties2: this.optionProperties2});
-      // console.log(this.properties);
+      
       var cards2 = [];
       for (var j = 0; j < this.state.optionProperties.length; j++) {
         
@@ -261,9 +261,9 @@ class CreateResultDisplayBase extends Component {
               
               propertyValue: ''
             });
-            //console.log(z);  
+           
             z=z+1;  
-            //console.log(z);    
+              
       
           
           this.setState({fire_loaded4:true});
@@ -388,7 +388,7 @@ class CreateResultDisplayBase extends Component {
       pageSize: 3,
     }
     
-//console.log(this.state);
+
     return (
 
       /* ~~~~~~~~~~~~~~~~PATIENT SELECTION~~~~~~~~~~~~~~~~~~~~~~ */  

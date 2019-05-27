@@ -52,8 +52,8 @@ class HomeFormBase extends Component {
         {this.state.fire_loaded1?
         <div>
         {this.userType === 'admin' || this.userType === 'ldo' ?
-        <div id="content">
-        <div class="container" style={{maxWidth: "1555px" , marginLeft:"120px" , marginRight: "120px", marginTop: "25px"}}>
+        <div id="content" style={{marginLeft:"242px" , marginRight: "120px", marginTop: "25px"}}>
+        {/* <div class="container" style={{maxWidth: "1555px" , marginLeft:"120px" , marginRight: "120px", marginTop: "25px"}}> */}
                 
         
          
@@ -183,7 +183,7 @@ class HomeFormBase extends Component {
                     </div>
                 </div>
     
-        </div>
+        {/* </div> */}
     </div>
     :
     <div id="content">

@@ -102,7 +102,7 @@ class AccountPageFormBase extends Component {
     
     firebase.database().ref('/testResults').orderByChild("userKey").equalTo(userId).once('value').then(snap => {
       let testKeys = Object.keys(snap.val());
-      console.log(testKeys);
+     
       testKeys.forEach(key => {
         updates['/testResults/'+key+'/email'] = email;
         updates['/testResults/'+key+'/firstName'] = firstName;
@@ -117,7 +117,7 @@ class AccountPageFormBase extends Component {
     updates['/users/' + userId + '/gender'] = gender;
     updates['/users/' + userId + '/dob'] = dob;
     updates['/users/' + userId + '/userType'] = userType;
-    console.log(updates);
+    
     firebase.database().ref().update(updates,function(error){
       if(error){
         alert(error.message);
