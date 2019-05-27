@@ -53,7 +53,7 @@ class HomeFormBase extends Component {
         <div>
         {this.userType === 'admin' || this.userType === 'ldo' ?
         <div id="content">
-        <div class="container" style={{maxWidth: "2000px" , marginLeft:"120px" , marginRight: "120px", marginTop: "25px"}}>
+        <div class="container" style={{maxWidth: "1555px" , marginLeft:"120px" , marginRight: "120px", marginTop: "25px"}}>
                 
         
          
