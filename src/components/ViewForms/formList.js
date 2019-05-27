@@ -71,18 +71,7 @@ class FormListDisplayBase extends Component {
         state: { form: form }
       })
   }
-  deleteProperty = (key) => {
-    firebase.database().ref('forms/').child(this.state.forms[key]._key).remove().then(
-        function() {
-          // fulfillment
-          alert("Form data has been removed successfully");
-          this.setState({forms:[]})
-      },
-      function() {
-        // fulfillment
-        alert("Form data has not been removed successfully");
-    });
-  }
+  
     
 
   render() {

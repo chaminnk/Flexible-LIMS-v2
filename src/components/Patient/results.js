@@ -60,9 +60,11 @@ class ViewResultsDisplayBase extends Component {
               gender: child.val().gender,
               lastName: child.val().lastName,
               referredBy: child.val().referredBy,
-              result: child.val().result,
+              numericProperties: child.val().numericProperties,
+              optionProperties :child.val().optionProperties,
+              textProperties:child.val().textProperties,
               testFormKey: child.val().testFormKey,
-              timeStamp: child.val().timeStamp,
+              createdDate: child.val().createdDate,
               userKey: child.val().userKey 
             });
             x=x+1;
@@ -174,7 +176,7 @@ class ViewResultsDisplayBase extends Component {
             >
                 <RowDefinition>
                     <ColumnDefinition id="formName" title="Test Name" customComponent={CustomColumn} customHeadingComponent={CustomHeading}/>
-                    <ColumnDefinition id="timeStamp" title="Date and time" customComponent={CustomColumn} customHeadingComponent={CustomHeading}/>
+                    <ColumnDefinition id="createdDate" title="Date and time" customComponent={CustomColumn} customHeadingComponent={CustomHeading}/>
                     
                 </RowDefinition>
             </Griddle>

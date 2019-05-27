@@ -129,7 +129,7 @@ class UpdateNumericPropertyPageFormBase extends Component {
 
  
       snap.forEach((child)=>{
-        console.log(child.val());
+        
           if("numericProperties" in child.val()){
            
             child.val().numericProperties.forEach((c)=>{
@@ -213,7 +213,59 @@ class UpdateNumericPropertyPageFormBase extends Component {
     
     
   }
+  deleteProperty = (propertyKey) => {
+    let updates = {};
+    firebase.database().ref('/forms').orderByChild("numericProperties").once('value').then(snap => {
+      let formKeys = [];
+
+ 
+      snap.forEach((child)=>{
+        
+          if("numericProperties" in child.val()){
+           
+            child.val().numericProperties.forEach((c)=>{
+              if(c.propertyKey===propertyKey){
+                let index = child.val().numericProperties.findIndex(x => x.propertyKey === propertyKey) ;
+                formKeys.push({formKey:child.key, index: index});
+                
+              }
+            })
+            
+             
+          }
+        
+      })
+
+      
+      
+      formKeys.forEach(key => {
+        updates['forms/'+key.formKey+'/numericProperties/'+key.index+'/propertyName'] = null;
+        updates['forms/'+key.formKey+'/numericProperties/'+key.index+'/unitOfMeasurement'] = null;
+        updates['forms/'+key.formKey+'/numericProperties/'+key.index+'/lowValue'] = null;
+        updates['forms/'+key.formKey+'/numericProperties/'+key.index+'/highValue'] = null;
+        updates['forms/'+key.formKey+'/numericProperties/'+key.index+'/id'] = null;
+        updates['forms/'+key.formKey+'/numericProperties/'+key.index+'/propertyType'] = null;
+        updates['forms/'+key.formKey+'/numericProperties/'+key.index+'/propertyKey'] = null;
+      });
+      this.updateDatabase(updates);
     
+    })
+    updates['/properties/' + propertyKey + '/propertyName'] = null;
+    updates['/properties/' + propertyKey + '/unitOfMeasurement'] = null;
+    updates['/properties/' + propertyKey + '/lowValue'] = null;
+    updates['/properties/' + propertyKey + '/highValue'] = null;
+    updates['/properties/' + propertyKey + '/createdBy'] = null;
+    updates['/properties/' + propertyKey + '/createdDate'] = null;
+    updates['/properties/' + propertyKey + '/propertyType'] = null;
+    firebase.database().ref().update(updates,function(error){
+      if(error){
+        alert(error.message);
+      }
+      else{
+        alert("Property details successfully deleted.");
+      }
+    });
+  }  
   updateDatabase = (updates) =>{
     firebase.database().ref().update(updates,function(error){
       if(error){
@@ -355,10 +407,19 @@ class UpdateNumericPropertyPageFormBase extends Component {
       
 
       
-      <div class="text-center">                    
+      <div style ={{marginTop: "25px"}} class="text-center">                    
         <button class="btn aqua-gradient" onClick = { () => this.updateProperty(this.state.propertyKey,this.state.propertyName, this.state.unitOfMeasurement, this.state.lowValue,this.state.highValue)} >Update Property</button>
         </div>
-       
+        <div>
+          {this.userType==='admin'?
+          <div style ={{marginTop: "50px"}} class="text-center">                    
+          <button type="button" class="btn btn-danger btn-rounded" onClick = { () => this.deleteProperty(this.state.propertyKey)}>Remove Property</button>
+            </div>
+            :
+            <div></div>
+            }
+        </div>
+        
       </div>
 
 

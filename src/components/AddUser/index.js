@@ -43,28 +43,32 @@ class AddUserFormBase extends Component {
   //   this.setState({firstName: event.target.firstName});
   // }
  
-  addUser = (email, passwordOne, firstName, lastName,contactNum, address, dob, gender, userType) => {
+  addUser = (email, passwordOne,passwordTwo, firstName, lastName,contactNum, address, dob, gender, userType) => {
     // const { firstName, lastName, email, passwordOne } = this.state;
     email=email.trim(); //remove unnecessary white spaces
     const end = new Date();
     this.setState({today: String(end.getFullYear())+'-'+(String(end.getMonth()+1))+'-'+String(end.getDate())});
    
     // add user validation
-    if(this.state.firstName.length<3 || this.state.firstName.length>20){
+    if(firstName.length<3 || firstName.length>20){
       alert("First name should have 3-20 characters.");
       return;
     
-    }else if(this.state.lastName.length<3 || this.state.lastName.length>20){
+    }else if(lastName.length<3 || lastName.length>20){
       alert("Last name should have 3-20 characters.");
       return;
     }else if (!(/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]+/.test(this.state.email))) { 
       alert("Please enter a valid Email adress");
       return;
-    }else if(this.state.passwordOne.length<6 ){
+    }else if(passwordOne.length<6 ){
       alert("Password should have at least 6 characters.");
       return;
-    }else if(this.state.passwordOne !== this.state.passwordTwo){
+    }else if(passwordOne !== passwordTwo){
       alert("Passwords do not match.");
+      return;
+    }
+    else if(address.length<3){
+      alert("Last name should have more than 3 characters.");
       return;
     }
     // else if(this.state.contactNum !== 10){
@@ -126,9 +130,9 @@ class AddUserFormBase extends Component {
       
          
         
-          <div class="card w-50">
+         
           <div class="d-flex justify-content-center ">
-          <div class="card" style={{width: "18rem"}}>
+          <div class="card" style={{width: "50em"}}>
             <div class="text-center">
                   <h3><i class="fas fa-user-plus"></i>  Add User</h3>
                   <hr class="mt-2 mb-2"></hr>
@@ -245,12 +249,12 @@ class AddUserFormBase extends Component {
             
             
             <div class="text-center">             
-              <button class="btn aqua-gradient" onClick = { () => this.addUser(this.state.email, this.state.passwordOne, this.state.firstName, this.state.lastName,this.state.contactNum,this.state.address, this.state.dob, this.state.gender,this.state.userType)} >Add User</button>
+              <button class="btn aqua-gradient" onClick = { () => this.addUser(this.state.email, this.state.passwordOne,this.state.passwordTwo, this.state.firstName, this.state.lastName,this.state.contactNum,this.state.address, this.state.dob, this.state.gender,this.state.userType)} >Add User</button>
               </div>
              
             </div>
           </div>
-          </div>
+        
       </div>
       </div>
 

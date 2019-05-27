@@ -57,31 +57,35 @@ class AccountPageFormBase extends Component {
           contactNum: child.val().contactNum,
           address: child.val().address,
           dob: child.val().dob,
-          gender: child.val().gender
+          gender: child.val().gender,
+          userType: child.val().userType,
         })
       }) 
       this.setState({fire_loaded1:true});
     });
     this.setState({ loading: false });
-    console.log(this.state.firstName);
+    
   }
   
-  updateUser = (email, firstName, lastName, contactNum, address, gender, dob) => {
+  updateUser = (email, firstName, lastName, contactNum, address, gender, dob,userType) => {
     
     email=email.trim(); //remove unnecessary white spaces
 
     // add user validation
-    if(this.state.firstName.length<3 || this.state.firstName.length>20){
+    if(firstName.length<3 ||firstName.length>20){
       alert("First name should have 3-20 characters.");
       return;
-    }else if(this.state.lastName.length<3 || this.state.lastName.length>20){
+    }else if(lastName.length<3 || lastName.length>20){
       alert("Last name should have 3-20 characters.");
       return;
     }else if (!(/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]+/.test(this.state.email))) { 
       alert("Please enter a valid Email adress");
       return;
     }
-
+    else if(address.length<3){
+      alert("Last name should have more than 3 characters.");
+      return;
+    }
 
     firstName=firstName.charAt(0).toUpperCase()+firstName.slice(1);
     lastName=lastName.charAt(0).toUpperCase()+lastName.slice(1);
@@ -94,70 +98,37 @@ class AccountPageFormBase extends Component {
       alert(error.message);
     });
     var userId = firebase.auth().currentUser.uid;
-    
+    let updates = {};
     
     firebase.database().ref('/testResults').orderByChild("userKey").equalTo(userId).once('value').then(snap => {
       let testKeys = Object.keys(snap.val());
       console.log(testKeys);
-      let updates = {};
       testKeys.forEach(key => {
-        updates['testResults/'+key+'/email'] = email;
-        updates['testResults/'+key+'/firstName'] = firstName;
-        updates['testResults/'+key+'/lastName'] = lastName;
-        updates['testResults/'+key+'/gender'] = gender;
+        updates['/testResults/'+key+'/email'] = email;
+        updates['/testResults/'+key+'/firstName'] = firstName;
+        updates['/testResults/'+key+'/lastName'] = lastName;
+        updates['/testResults/'+key+'/gender'] = gender;
       });
       updates['/users/' + userId + '/email'] = email;
-      updates['/users/' + userId + '/firstName'] = firstName;
-      updates['/users/' + userId + '/lastName'] = lastName;
-      updates['/users/' + userId + '/contactNum'] = contactNum;
-      updates['/users/' + userId + '/address'] = address;
-      updates['/users/' + userId + '/gender'] = gender;
-      updates['/users/' + userId + '/dob'] = dob;
-     
-      firebase.database().ref().update(updates,function(error){
-        if(error){
-          alert(error.message);
-        }
-        else{
-          alert("User details successfully updated.");
-        }
-      });
+    updates['/users/' + userId + '/firstName'] = firstName;
+    updates['/users/' + userId + '/lastName'] = lastName;
+    updates['/users/' + userId + '/contactNum'] = contactNum;
+    updates['/users/' + userId + '/address'] = address;
+    updates['/users/' + userId + '/gender'] = gender;
+    updates['/users/' + userId + '/dob'] = dob;
+    updates['/users/' + userId + '/userType'] = userType;
+    console.log(updates);
+    firebase.database().ref().update(updates,function(error){
+      if(error){
+        alert(error.message);
+      }
+      else{
+        alert("User details successfully updated.");
+      }
+    });
     })
-
-    // ,(snapshot) =>{
-      
-    //   snapshot.forEach((child)=>{
-        
-    //     updates['/testResults/' + child.key]= {
-    //       email: email,
-    //       firstName: firstName,
-    //       lastName: lastName,
-    //       gender: gender
-    //      };
-    //     // = email;
-    //     // updates['/testResults/' + child.key + '/firstName'] = firstName;
-    //     // updates['/testResults/' + child.key + '/lastName'] = lastName;
-    //     // updates['/testResults/' + child.key  + '/gender'] = gender;
-    //   })
-    // })
-
-    // updates['/users/' + userId + '/email'] = email;
-    //   updates['/users/' + userId + '/firstName'] = firstName;
-    //   updates['/users/' + userId + '/lastName'] = lastName;
-    //   updates['/users/' + userId + '/contactNum'] = contactNum;
-    //   updates['/users/' + userId + '/address'] = address;
-    //   updates['/users/' + userId + '/gender'] = gender;
-    //   updates['/users/' + userId + '/dob'] = dob;
-     
-    //   firebase.database().ref().update(updates,function(error){
-    //     if(error){
-    //       alert(error.message);
-    //     }
-    //     else{
-    //       alert("User details successfully updated.");
-    //     }
-    //   });
     
+   
     
   }
     
@@ -178,7 +149,7 @@ class AccountPageFormBase extends Component {
       <div>
 
       
-      <div class="d-flex justify-content-center ">
+      <div class="d-flex justify-content-center " style={{marginTop: "25px"}}>
       
          
         
@@ -269,10 +240,26 @@ class AccountPageFormBase extends Component {
 
               </div>
             </div>
+            <div>
+              {this.state.userType==='admin'? 
+              <div class="md-form">
+                  <div class="text-center">
+                  Select User Type : <select name="userType" value={this.state.userType} onChange={this.onChange}>
+                                          <option value="admin">Administrator</option>
+                                          <option value="ldo">Data Operator</option>
+                                          <option value="patient">Patient</option>
+                                  </select>
+                  </div>
+              </div>
+              :
+              <div></div>
+              }
+            </div>
+            
 
             
             <div class="text-center">                    
-              <button class="btn aqua-gradient" onClick = { () => this.updateUser(this.state.email, this.state.firstName, this.state.lastName,this.state.contactNum,this.state.address,this.state.gender,this.state.dob)} >Update Profile</button>
+              <button class="btn aqua-gradient" onClick = { () => this.updateUser(this.state.email, this.state.firstName, this.state.lastName,this.state.contactNum,this.state.address,this.state.gender,this.state.dob,this.state.userType)} >Update Profile</button>
               </div>
              
             </div>

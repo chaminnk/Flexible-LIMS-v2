@@ -20,7 +20,7 @@ class UpdateFormDisplayBase extends Component {
   constructor(props) {
     super(props);
     const timeStamp = new Date();
-    this.state = { timeStamp: String(timeStamp), loading: true,fire_loaded1: false,selected:false, fire_loaded2: false,  forms:  [], formName:'', formKey: '' , specimen:'',testType: ''};
+    this.state = { timeStamp: String(timeStamp), loading: true,fire_loaded1: false,selected:false, fire_loaded2: false,  forms:  [], formName:'', formKey: '' , specimen:'',testType: '', numericProperties:[],optionProperties:[],textProperties:[]};
       //this.handleChange = this.handleChange.bind(this);
   }
   // handleChange(event) {
@@ -87,11 +87,13 @@ class UpdateFormDisplayBase extends Component {
     this.setState({formName: this.state.forms[key].formName});
     this.setState({specimen: this.state.forms[key].specimen});
     this.setState({testType: this.state.forms[key].testType});
-    
+    this.setState({numericProperties: this.state.forms[key].numericProperties});
+    this.setState({optionProperties: this.state.forms[key].optionProperties});
+    this.setState({textProperties: this.state.forms[key].textProperties});
    
 
   }  
-  updateProperty = (formKey,formName,specimen,testType) => {
+  updateProperty = (formKey,formName,specimen,testType,numericProperties,optionProperties,textProperties) => {
 
     //proprty validation
     if(formName === '' ){
@@ -131,7 +133,18 @@ class UpdateFormDisplayBase extends Component {
     })
     updates['/forms/' + formKey + '/formName'] = formName;
     updates['/forms/'+formKey+'/specimen'] = specimen;  
-    updates['/forms/'+formKey+'/testType'] = testType;  
+    updates['/forms/'+formKey+'/testType'] = testType;
+    if(numericProperties !== undefined){
+      updates['/forms/'+formKey+'/numericProperties'] = numericProperties; 
+    } 
+    if(optionProperties!==undefined){
+      updates['/forms/'+formKey+'/optionProperties'] = optionProperties;
+    }
+    if(textProperties!==undefined){
+      updates['/forms/'+formKey+'/textProperties'] = textProperties; 
+    }
+    
+    
     updates['/forms/' + formKey + '/createdBy'] = firebase.auth().currentUser.email;
     updates['/forms/' + formKey + '/createdDate'] =  this.state.timeStamp;
 
@@ -158,6 +171,8 @@ class UpdateFormDisplayBase extends Component {
       }
     });
   }  
+
+
   render() {
     
     const styleConfig = {
@@ -191,9 +206,11 @@ class UpdateFormDisplayBase extends Component {
 
 <div style ={{marginTop: "25px"}} >
     <div style ={{marginTop: "25px"}} class="d-flex justify-content-center">
-            <h5><i class="fas fa-hand-pointer"></i> Click on a Form to update</h5>
+            <h5><i class="fas fa-hand-pointer"></i> Click on a Form to update </h5>
+            
     
     </div>
+    
     <div class="d-flex justify-content-center">
     <Griddle 
               pageProperties={pageProperties}
@@ -227,6 +244,7 @@ class UpdateFormDisplayBase extends Component {
     <div class="card  " style={{width: "50em"}}>
       <div class="text-center">
             <h3><i class="far fa-edit"></i> Update Form</h3>
+            <h4>Press 'Update' after accidental removals to recover data</h4>
             <hr class="mt-2 mb-2"></hr>
       </div>
       <div class="md-form">
@@ -259,7 +277,7 @@ class UpdateFormDisplayBase extends Component {
           name="testType"
           onChange={this.onChange}
           type="text"
-          placeholder="Enter test type Name"
+          placeholder="Enter test type"
           value={this.state.testType}
 
         />
@@ -268,7 +286,7 @@ class UpdateFormDisplayBase extends Component {
 
       
       <div style ={{marginTop: "50px"}} class="text-center">                    
-        <button class="btn aqua-gradient" onClick = { () => this.updateProperty(this.state.formKey,this.state.formName,this.state.specimen,this.state.testType)} >Update Form</button>
+        <button class="btn aqua-gradient" onClick = { () => this.updateProperty(this.state.formKey,this.state.formName,this.state.specimen,this.state.testType,this.state.numericProperties,this.state.optionProperties,this.state.textProperties)} >Update Form</button>
         </div>
         <div style ={{marginTop: "50px"}} class="text-center">                    
       <button type="button" class="btn btn-danger btn-rounded" onClick = { () => this.deleteProperty(this.state.formKey)}>Remove Form</button>

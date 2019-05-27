@@ -100,17 +100,7 @@ class ViewOptionPropertiesPageFormBase extends Component {
     
     
   }
-  deleteProperty = (key) => {
-    this.state.propertyDisplay[key].remove().then(
-        function() {
-          // fulfillment
-          alert("The Property data has been removed successfully");
-      },
-      function() {
-        // fulfillment
-        alert("The Property data has not been removed successfully");
-    });
-  }  
+  
   
 
   render() {
@@ -133,10 +123,7 @@ class ViewOptionPropertiesPageFormBase extends Component {
     
     const CustomColumn = ({value}) => <span style={{ color: '#0000AA' }}>{value}</span>;
     const CustomHeading = ({title}) => <span style={{ color: '#AA0000' }}>{title}</span>;
-    const DeletePropertyButton = ({griddleKey}) => (
-        <div>
-          <button type="button" class="btn btn-danger btn-rounded" onClick = { () => this.deleteProperty(griddleKey)}>Remove</button>
-        </div>); 
+    
 
 
     return (
@@ -160,7 +147,7 @@ class ViewOptionPropertiesPageFormBase extends Component {
             <ColumnDefinition id="propertyName" title="Property Name" customComponent={CustomColumn} customHeadingComponent={CustomHeading}/>
             <ColumnDefinition id="optionsString" title="Options" customHeadingComponent={CustomHeading}/>
             <ColumnDefinition id="propertyType"  title="Property Type" customHeadingComponent={CustomHeading} />
-            <ColumnDefinition id="" customComponent={DeletePropertyButton} />
+            
             
             
         </RowDefinition>

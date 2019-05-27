@@ -1,26 +1,28 @@
 import React, { Component } from 'react';
 import { withFirebase } from '../Firebase';
 import { AuthUserContext } from '../Session';
-
 import { withAuthorization } from '../Session';
 import * as firebase from 'firebase';
 import {  withRouter } from 'react-router-dom';
+import 'react-phone-number-input/style.css';
+import * as ROUTES from '../../constants/routes';
+import PhoneInput from 'react-phone-number-input';
 import {AccountNavBar} from '../AccountNavBar';
 
-const AccountPage = () => (
+const PatientAccountPage = () => (
   <AuthUserContext.Consumer>
     {authUser => (
       <div>
         <AccountNavBar/>
-        <h1>Account: {authUser.email}</h1>
+        
 
-        <AccountPageForm/>
+        <PatientAccountPageForm/>
       </div>
     )}
   </AuthUserContext.Consumer>
 
 );
-class AccountPageFormBase extends Component {
+class PatientAccountPageFormBase extends Component {
   constructor(props) {
     super(props);
 
@@ -29,6 +31,11 @@ class AccountPageFormBase extends Component {
       lastName: '',
       email: '',
       userType: '',
+      contactNum: '',
+      address:'',
+      dob:'',
+      today:'',
+      gender: '',
       loading: true,
       fire_loaded1: false,
 
@@ -40,37 +47,55 @@ class AccountPageFormBase extends Component {
   userId1 = firebase.auth().currentUser.uid;
   userDetails = [];
   async componentWillMount() {
-    firebase.database().ref('users/').orderByChild('userId').equalTo(this.userId1).on('value', (snapshot) => {
+    this.userId = firebase.auth().currentUser.uid;
+
+     firebase.database().ref('users/'+firebase.auth().currentUser.uid).once('value',(snapshot) => {
+      this.userType = snapshot.val().userType;
+      
+    });
+    if (this.userType === 'admin' || this.userType === 'ldo' || this.userType === 'unapproved'){
+        alert("You don't have permission to view this page");
+        this.props.history.push(ROUTES.HOME);
+    }
+    firebase.database().ref('users/').orderByKey().equalTo(this.userId1).once('value', (snapshot) => {
       this.userDetails = [];
       snapshot.forEach((child)=>{
         this.setState({
           firstName: child.val().firstName,
           lastName: child.val().lastName,
           email: child.val().email,
-          userType: child.val().userType
+          contactNum: child.val().contactNum,
+          address: child.val().address,
+          dob: child.val().dob,
+          gender: child.val().gender,
+          
         })
       }) 
       this.setState({fire_loaded1:true});
     });
     this.setState({ loading: false });
+    
   }
   
-  updateUser = (email, firstName, lastName) => {
+  updateUser = (email, firstName, lastName, contactNum, address, gender, dob) => {
     
     email=email.trim(); //remove unnecessary white spaces
 
     // add user validation
-    if(this.state.firstName.length<3 || this.state.firstName.length>20){
+    if(firstName.length<3 ||firstName.length>20){
       alert("First name should have 3-20 characters.");
       return;
-    }else if(this.state.lastName.length<3 || this.state.lastName.length>20){
+    }else if(lastName.length<3 || lastName.length>20){
       alert("Last name should have 3-20 characters.");
       return;
     }else if (!(/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]+/.test(this.state.email))) { 
       alert("Please enter a valid Email adress");
       return;
     }
-
+    else if(address.length<3){
+      alert("Last name should have more than 3 characters.");
+      return;
+    }
 
     firstName=firstName.charAt(0).toUpperCase()+firstName.slice(1);
     lastName=lastName.charAt(0).toUpperCase()+lastName.slice(1);
@@ -83,12 +108,38 @@ class AccountPageFormBase extends Component {
       alert(error.message);
     });
     var userId = firebase.auth().currentUser.uid;
-    var updates = {};
+    let updates = {};
+    
+    firebase.database().ref('/testResults').orderByChild("userKey").equalTo(userId).once('value').then(snap => {
+      let testKeys = Object.keys(snap.val());
+      
+      testKeys.forEach(key => {
+        updates['testResults/'+key+'/email'] = email;
+        updates['testResults/'+key+'/firstName'] = firstName;
+        updates['testResults/'+key+'/lastName'] = lastName;
+        updates['testResults/'+key+'/gender'] = gender;
+      });
+      
+    })
     updates['/users/' + userId + '/email'] = email;
     updates['/users/' + userId + '/firstName'] = firstName;
     updates['/users/' + userId + '/lastName'] = lastName;
-    firebase.database().ref().update(updates);
-    alert("User details successfully updated.");
+    updates['/users/' + userId + '/contactNum'] = contactNum;
+    updates['/users/' + userId + '/address'] = address;
+    updates['/users/' + userId + '/gender'] = gender;
+    updates['/users/' + userId + '/dob'] = dob;
+    updates['/users/' + userId + '/userType'] = userType;
+    
+    firebase.database().ref().update(updates,function(error){
+      if(error){
+        alert(error.message);
+      }
+      else{
+        alert("User details successfully updated.");
+      }
+    });
+   
+    
   }
     
 
@@ -108,11 +159,11 @@ class AccountPageFormBase extends Component {
       <div>
 
       
-      <div class="d-flex justify-content-center ">
+      <div class="d-flex justify-content-center " style={{marginTop: "25px"}}>
       
          
         
-          <div class="card" style={{width: "50em"}}>
+      <div class="card" style={{width: "50em"}}>
             <div class="text-center">
                   <h3><i class="fas fa-user-plus"></i> Update Profile</h3>
                   <hr class="mt-2 mb-2"></hr>
@@ -154,13 +205,71 @@ class AccountPageFormBase extends Component {
               />
             </div>
             </div>
-            
+            <div class="d-flex justify-content-center ">
+                <div class="text-center">
+                <PhoneInput
+                    placeholder="Enter Contact Number"
+                    value={ this.state.contactNum }
+                    onChange={ contactNum => this.setState({ contactNum }) } />
+              </div>
+            </div>
+            <div class="md-form">
+                <div class="text-center">
+              <input
+                name="address"
+                value={this.state.address}
+                onChange={this.onChange}
+
+                
+                type="text"
+                placeholder="Enter Address."
+              />
+              </div>
+            </div>
+            <div class="md-form">
+                  <div class="text-center">
+                  Date of Birth: <input
+                  name="dob"
+                  value={this.state.dob}
+                  onChange={this.onChange}
+    
+
+                  type="date"
+                  placeholder="Select Date"
+                />
+                </div>
+              </div>
+              <div class="md-form">
+                <div class="text-center">
+        
+          Gender:
+          <select name="gender" value={this.state.value} onChange={this.onChange}>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+          </select>
+
+              </div>
+            </div>
+            <div>
+              {this.state.userType==='admin'? 
+              <div class="md-form">
+                  <div class="text-center">
+                  Select User Type : <select name="userType" value={this.state.userType} onChange={this.onChange}>
+                                          <option value="admin">Administrator</option>
+                                          <option value="ldo">Data Operator</option>
+                                          <option value="patient">Patient</option>
+                                  </select>
+                  </div>
+              </div>
+              :
+              <div></div>
+              }
+            </div>
             
 
-
             
-            <div class="text-center">
-              <button class="btn aqua-gradient" onClick = { () => this.updateUser(this.state.email, this.state.firstName, this.state.lastName)} >Update Profile</button>
+            <div class="text-center">                    
+              <button class="btn aqua-gradient" onClick = { () => this.updateUser(this.state.email, this.state.firstName, this.state.lastName,this.state.contactNum,this.state.address,this.state.gender,this.state.dob,this.state.userType)} >Update Profile</button>
               </div>
              
             </div>
@@ -181,8 +290,8 @@ class AccountPageFormBase extends Component {
      
   }
 }
-const AccountPageForm = withRouter(withFirebase(AccountPageFormBase)); // give access to the props of the router and firebse
+const PatientAccountPageForm = withRouter(withFirebase(PatientAccountPageFormBase)); // give access to the props of the router and firebse
 const authCondition = authUser => !!authUser;
 
-export default withAuthorization(authCondition)(AccountPage);
-export {AccountPageForm}
+export default withAuthorization(authCondition)(PatientAccountPage);
+export {PatientAccountPageForm}

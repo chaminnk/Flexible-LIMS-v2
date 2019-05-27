@@ -194,6 +194,56 @@ class UpdateOptionPropertyPageFormBase extends Component {
     
     
   }
+  deleteProperty = (propertyKey) => {
+    let updates = {};
+    firebase.database().ref('/forms').orderByChild("optionProperties").once('value').then(snap => {
+      let formKeys = [];
+
+ 
+      snap.forEach((child)=>{
+        
+          if("optionProperties" in child.val()){
+           
+            child.val().optionProperties.forEach((c)=>{
+              if(c.propertyKey===propertyKey){
+                let index = child.val().optionProperties.findIndex(x => x.propertyKey === propertyKey) ;
+                formKeys.push({formKey:child.key, index: index});
+                
+              }
+            })
+            
+             
+          }
+        
+      })
+
+      
+      
+      formKeys.forEach(key => {
+        updates['forms/'+key.formKey+'/optionProperties/'+key.index+'/propertyName'] = null;
+        
+        updates['forms/'+key.formKey+'/optionProperties/'+key.index+'/id'] = null;
+        updates['forms/'+key.formKey+'/optionProperties/'+key.index+'/optionsList'] = null;
+        updates['forms/'+key.formKey+'/optionProperties/'+key.index+'/propertyType'] = null;
+        updates['forms/'+key.formKey+'/optionProperties/'+key.index+'/propertyKey'] = null;
+      });
+      this.updateDatabase(updates);
+    
+    })
+    updates['/properties/' + propertyKey + '/propertyName'] = null;
+    updates['/properties/' + propertyKey + '/options'] = null;
+    updates['/properties/' + propertyKey + '/createdBy'] = null;
+    updates['/properties/' + propertyKey + '/createdDate'] = null;
+    updates['/properties/' + propertyKey + '/propertyType'] = null;
+    firebase.database().ref().update(updates,function(error){
+      if(error){
+        alert(error.message);
+      }
+      else{
+        alert("Property details successfully deleted.");
+      }
+    });
+  }  
   updateDatabase = (updates) =>{
     firebase.database().ref().update(updates,function(error){
       if(error){
@@ -298,10 +348,18 @@ class UpdateOptionPropertyPageFormBase extends Component {
       
 
       
-      <div style ={{marginTop: "50px"}} class="text-center">                    
+      <div style ={{marginTop: "25px"}} class="text-center">                    
         <button class="btn aqua-gradient" onClick = { () => this.updateProperty(this.state.propertyKey,this.state.propertyName)} >Update Property</button>
         </div>
-       
+        <div>
+          {this.userType==='admin'?
+          <div style ={{marginTop: "50px"}} class="text-center">                    
+          <button type="button" class="btn btn-danger btn-rounded" onClick = { () => this.deleteProperty(this.state.propertyKey)}>Remove Property</button>
+            </div>
+            :
+            <div></div>
+            }
+        </div>
       </div>
 
 

@@ -42,77 +42,82 @@ class ViewFormsDisplayBase extends Component {
     this.setState({formKey: this.state.form.formKey})
     this.setState({numericProperties: this.state.form.numericProperties})
     this.setState({optionProperties: this.state.form.optionProperties})
-    this.setState({textProperties: this.state.form.tex})
+    this.setState({textProperties: this.state.form.textProperties})
     if(this.state.numericProperties!== undefined){
         
       var cards = [];
-      for (var i = 0; i < this.state.numericProperties.length; i++) {
-          
-        cards.push(<div style ={{marginTop: "25px"}} className="d-flex justify-content-center ">
-        <div className="card " style={{width: "50em"}}>
-        <div className="md-form">
-                        <div className="text-center">
-                        
-                      {this.state.numericProperties[i].propertyName} : <input
-                        name={this.state.numericProperties[i].propertyKey}
-                
-                        type="text"
-                        placeholder={this.state.numericProperties[i].propertyValue}
-                        value={this.state.v}
-                        onChange={this.onChange2}
-
-                      /> {this.state.numericProperties[i].unitOfMeasurement}, Low Value : {this.state.numericProperties[i].lowValue}, High Value : {this.state.numericProperties[i].highValue}
-                      </div>
-                    </div></div>
-        </div>);
+      
+        for (var i = 0; i < this.state.numericProperties.length; i++) {
+          if(this.state.numericProperties[i]!== undefined){
+            cards.push(<div style ={{marginTop: "25px"}} className="d-flex justify-content-center ">
+            <div className="card " style={{width: "50em"}}>
+            <div className="md-form">
+                            <div className="text-center">
+                            
+                          {this.state.numericProperties[i].propertyName} : <input
+                            name={this.state.numericProperties[i].propertyKey}
+                    
+                            type="text"
+                            placeholder={this.state.numericProperties[i].propertyValue}
+                            value={this.state.v}
+                            onChange={this.onChange2}
+    
+                          /> {this.state.numericProperties[i].unitOfMeasurement}, Low Value : {this.state.numericProperties[i].lowValue}, High Value : {this.state.numericProperties[i].highValue}
+                          </div>
+                        </div></div>
+            </div>);
+        }
       }
+      
   
       this.setState({cards:cards})
   }
   if(this.state.optionProperties!== undefined){
     var cards2 = [];
     for (var j = 0; j < this.state.optionProperties.length; j++) {
-      
-      cards2.push(<div style ={{marginTop: "25px"}} className="d-flex justify-content-center ">
-      <div className="card " style={{width: "50em"}}>
-      <div className="md-form">
+      if(this.state.optionProperties[j]!== undefined){
+        cards2.push(<div style ={{marginTop: "25px"}} className="d-flex justify-content-center ">
+        <div className="card " style={{width: "50em"}}>
+        <div className="md-form">
+                        <div className="text-center">
+                      {this.state.optionProperties[j].propertyName} : 
                       <div className="text-center">
-                    {this.state.optionProperties[j].propertyName} : 
-                    <div className="text-center">
-                    <Select
-                      name = {this.state.optionProperties[j].propertyKey}
-                      
-                      options={this.state.optionProperties[j].optionsList.map(t=>({value: t, label: t}))}
-                      placeholder={this.state.optionProperties[j].selectedOption}
-                      onChange={this.onChange3}
-                    />
-                    </div>
-                    </div>
-                  </div></div>
-      </div>);
+                      <Select
+                        name = {this.state.optionProperties[j].propertyKey}
+                        
+                        options={this.state.optionProperties[j].optionsList.map(t=>({value: t, label: t}))}
+                        placeholder={this.state.optionProperties[j].selectedOption}
+                        onChange={this.onChange3}
+                      />
+                      </div>
+                      </div>
+                    </div></div>
+        </div>);
+      }
     }
     this.setState({cards2:cards2})
   }
   if(this.state.textProperties !== undefined){
       var cards3 = [];
       for (var k = 0; k < this.state.textProperties.length; k++) {
-        
-        cards3.push(<div style ={{marginTop: "25px"}} class="d-flex justify-content-center ">
-        <div class="card " style={{width: "50em"}}>
-        <div class="md-form">
-                        <div class="text-center">
-                      {this.state.textProperties[k].propertyName} : <input
-                        name={this.state.textProperties[k].propertyKey}
-                
-                        type="text"
-                        placeholder={this.state.textProperties[k].propertyValue}
-                        value={this.state.v}
-                        onChange={this.onChange4}
+        if(this.state.textProperties[k]!== undefined){
+          cards3.push(<div style ={{marginTop: "25px"}} class="d-flex justify-content-center ">
+          <div class="card " style={{width: "50em"}}>
+          <div class="md-form">
+                          <div class="text-center">
+                        {this.state.textProperties[k].propertyName} : <input
+                          name={this.state.textProperties[k].propertyKey}
+                  
+                          type="text"
+                          placeholder={this.state.textProperties[k].propertyValue}
+                          value={this.state.v}
+                          onChange={this.onChange4}
 
-                      /> 
-                      </div>
-                    </div></div>
-        </div>);
+                        /> 
+                        </div>
+                      </div></div>
+          </div>);
+        }
       } 
       this.setState({cards3:cards3})
   }

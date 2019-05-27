@@ -12,6 +12,7 @@ import AddPropertyPage from '../AddProperty';
 import ViewPropertiesPage from '../ViewProperty';
 import ViewNumericPropertiesPage from '../ViewNumericProperties';
 import ViewOptionPropertiesPage from '../ViewOptionProperties';
+import ViewTextPropertiesPage from '../ViewTextProperties';
 import ViewUsersPage from '../ViewUser';
 import FormListPage from '../ViewForms/formList';
 import ViewFormsPage from '../ViewForms';
@@ -32,6 +33,7 @@ import UpdateFormPage from '../UpdateForm';
 import PatientListPage from '../UpdateTestResult/patientList';
 import TestListPage from '../UpdateTestResult/testList';
 import UpdateTestPage from '../UpdateTestResult/index';
+import PatientAccountPage from '../Patient/profile';
 
 import * as ROUTES from '../../constants/routes';
 
@@ -60,6 +62,7 @@ class App extends Component {
           <Route exact path={ROUTES.ADD_PROPERTY} component={AddPropertyPage} />
           <Route exact path={ROUTES.VIEW_PROPERTIES} component={ViewPropertiesPage} />
           <Route exact path={ROUTES.VIEW_NUMERIC_PROPERTIES} component={ViewNumericPropertiesPage} />
+          <Route exact path={ROUTES.VIEW_TEXT_PROPERTIES} component={ViewTextPropertiesPage} />
           <Route exact path={ROUTES.VIEW_OPTION_PROPERTIES} component={ViewOptionPropertiesPage} />
           <Route exact path={ROUTES.VIEW_USERS} component={ViewUsersPage} />
           <Route exact path={ROUTES.VIEW_FORMS} component={ViewFormsPage} />
@@ -81,7 +84,7 @@ class App extends Component {
           <Route exact path={ROUTES.TEST_LIST} component={TestListPage} />
           <Route exact path={ROUTES.UPDATE_TEST} component={UpdateTestPage} />
           <Route exact path={ROUTES.FORM_LIST} component={FormListPage} />
-
+          <Route exact path={ROUTES.PATIENT_ACCOUNT_PAGE} component={PatientAccountPage} />
           
 
         </div>

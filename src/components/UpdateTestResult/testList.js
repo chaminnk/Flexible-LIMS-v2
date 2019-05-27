@@ -102,7 +102,7 @@ class TestListDisplayBase extends Component {
         },
       };
     
-    
+      
     const CustomColumn = ({value}) => <span style={{ color: '#0000AA' }}>{value}</span>;
     const CustomHeading = ({title}) => <span style={{ color: '#AA0000' }}>{title}</span>;
    

@@ -25,17 +25,27 @@ state = {
 };
 
 toggleCollapse = () => {
-  this.setState({ isOpen: !this.state.isOpen });
+  this.setState({ isOpen: !this.state.isOpen ,fire_loaded:false });
 }
 async componentWillMount() {
   await firebase.database().ref('users/'+firebase.auth().currentUser.uid).once('value',(snapshot) => {
       this.userType = snapshot.val().userType;
+      this.setState({fire_loaded:true});
       this.forceUpdate();
   });
 }
 render() {
   return (
     <div>
+      {this.userType==='unapproved'?
+      <div>
+
+      </div>
+      :
+      <div>
+        {this.state.fire_loaded?
+        <div>
+          <div>
       {this.userType === 'admin' || this.userType === 'ldo' ?
       <MDBNavbar color="default-color" dark expand="md">
       <MDBNavbarBrand>
@@ -75,7 +85,7 @@ render() {
                 <MDBDropdownItem href={ROUTES.VIEW_PROPERTIES}>View Properties</MDBDropdownItem>
                 
                 <MDBDropdownItem href={ROUTES.FORM_LIST}>View Forms</MDBDropdownItem>
-                <MDBDropdownItem href={ROUTES.VIEW_USERS}>View Users</MDBDropdownItem>
+                <MDBDropdownItem href={ROUTES.PATIENT_LIST}>View Patients</MDBDropdownItem>
               </MDBDropdownMenu>
             </MDBDropdown>
 
@@ -103,11 +113,25 @@ render() {
           
           {this.userType === 'admin'  ?
           <MDBNavItem>
-            <MDBNavLink to={ROUTES.APPROVE_USER}>Approve Users</MDBNavLink>
-          </MDBNavItem>
+        
+          <MDBDropdown>
+            <MDBDropdownToggle nav caret>
+              Users 
+            </MDBDropdownToggle>
+            <MDBDropdownMenu className="dropdown-default" right>
+     
+              
+              <MDBDropdownItem href={ROUTES.APPROVE_USER}>Approve Users</MDBDropdownItem>
+              <MDBDropdownItem href={ROUTES.VIEW_USERS}>View All Users</MDBDropdownItem>
+            </MDBDropdownMenu>
+          </MDBDropdown>
+
+          
+        </MDBNavItem>
+          
           :
           <MDBNavItem>
-            <MDBNavLink to={ROUTES.HOME}></MDBNavLink>
+            <p></p>
           </MDBNavItem>
           }
           
@@ -132,6 +156,13 @@ render() {
       <PatientNavigation />
       }
     </div>
+        </div>
+        :
+        <div></div>}
+      </div>
+      }
+    </div>
+    
     
     
     );

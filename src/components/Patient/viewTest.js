@@ -3,10 +3,10 @@ import {  withRouter } from 'react-router-dom';
 
 // import jsPDF from 'jspdf';
 // import html2canvas from 'html2canvas';
-
+import * as ROUTES from '../../constants/routes';
 import { withFirebase } from '../Firebase';
+import firebase from 'firebase';
 
-import Griddle, { plugins, RowDefinition, ColumnDefinition} from 'griddle-react';
 
 import { withAuthorization } from '../Session';
 
@@ -27,9 +27,75 @@ class ViewTestFormBase extends Component {
       test:this.props.location.state.test,
       viewTestLoading: false,
       fire_loaded:false,
-      
+      cards:[],
+      cards2: [], 
+      cards3: []
      })
  
+  }
+  async componentWillMount() {
+    await firebase.database().ref('users/'+firebase.auth().currentUser.uid).once('value',(snapshot) => {
+        this.userType = snapshot.val().userType;
+        this.setState({fire_loaded:true});
+        
+    });
+    if (this.userType !== 'patient'  ){
+        alert("You don't have permission to view this page");
+        this.props.history.push(ROUTES.HOME);
+    }
+    
+    if(this.state.test.numericProperties!== undefined){
+        
+        var cards = [];
+        for (var i = 0; i < this.state.test.numericProperties.length; i++) {
+            
+          cards.push(<div style ={{marginTop: "25px"}} className="d-flex justify-content-center ">
+          <div className="card w-50">
+          <div className="md-form">
+                          <div className="text-center">
+                          
+                        {this.state.test.numericProperties[i].propertyName} : {this.state.test.numericProperties[i].propertyValue} {this.state.test.numericProperties[i].unitOfMeasurement}, Low Value : {this.state.test.numericProperties[i].lowValue}, High Value : {this.state.test.numericProperties[i].highValue}
+                        </div>
+                      </div></div>
+          </div>);
+        }
+    
+        this.setState({cards:cards})
+    }
+    if(this.state.test.optionProperties!== undefined){
+      var cards2 = [];
+      for (var j = 0; j < this.state.test.optionProperties.length; j++) {
+        
+        cards2.push(<div style ={{marginTop: "25px"}} className="d-flex justify-content-center ">
+        <div className="card w-50">
+        <div className="md-form">
+                        <div className="text-center">
+                      {this.state.test.optionProperties[j].propertyName} : {this.state.test.optionProperties[j].selectedOption} 
+                      
+                      </div>
+                    </div></div>
+        </div>);
+      }
+      this.setState({cards2:cards2})
+    }
+    if(this.state.test.textProperties !== undefined){
+        var cards3 = [];
+        for (var k = 0; k < this.state.test.textProperties.length; k++) {
+          
+          cards3.push(<div style ={{marginTop: "25px"}} class="d-flex justify-content-center ">
+          <div class="card w-50">
+          <div class="md-form">
+                          <div class="text-center">
+                        {this.state.test.textProperties[k].propertyName} : {this.state.test.textProperties[k].propertyValue}
+                        </div>
+                      </div></div>
+          </div>);
+        } 
+        this.setState({cards3:cards3})
+    }
+    
+    this.setState({loading:false});
+
   }
 //   downloadPdf = () => {
 
@@ -51,26 +117,7 @@ class ViewTestFormBase extends Component {
 
 
   render() {
-    const styleConfig = {
-        icons: {
-          TableHeadingCell: {
-            sortDescendingIcon: '▼',
-            sortAscendingIcon: '▲',
-          },
-        },
-        classNames: {
-          Row: 'row-class',
-          Table: 'table-striped, table',
-        },
-        styles: {
-          Filter: { fontSize: 18 },
-        },
-      };
- 
     
-    const CustomColumn = ({value}) => <span style={{ color: '#0000AA' }}>{value}</span>;
-    const CustomHeading = ({title}) => <span style={{ color: '#AA0000' }}>{title}</span>;
-  
 
     return (
     
@@ -82,7 +129,7 @@ class ViewTestFormBase extends Component {
 
         <div style ={{marginTop: "25px"}} >
             <div class="d-flex justify-content-center" >
-                <div class="card" style={{width: "50em"}}>
+                <div class="card w-50" style={{width: "50em"}}>
                     <div class="md-form">
                         <div class="text-center">
                             Patient name : {this.state.test.firstName} {this.state.test.lastName}
@@ -122,32 +169,11 @@ class ViewTestFormBase extends Component {
 
         </div>
         <div style ={{marginTop: "25px"}}>
-            <div class="d-flex justify-content-center">
-              <Griddle 
-                    
-                    data={this.state.test.result} 
-                    plugins={[plugins.LocalPlugin]}
-                    styleConfig={styleConfig}
-                    
-                >
-                    <RowDefinition>
-                    <ColumnDefinition id="propertyName" title="Test Name" customComponent={CustomColumn} customHeadingComponent={CustomHeading}/>
-                    <ColumnDefinition id="propertyValue" title="Result" customComponent={CustomColumn} customHeadingComponent={CustomHeading}/>
-                    <ColumnDefinition id="referenceRange" title="Reference Range" customComponent={CustomColumn} customHeadingComponent={CustomHeading}/>
-                    <ColumnDefinition id="unitOfMeasurement" title="Unit Of Measurement" customComponent={CustomColumn} customHeadingComponent={CustomHeading}/>
-                    
-                    
-                    
-                    
-                </RowDefinition>
-                </Griddle>
-            </div>
-                
-            </div>
-            <div class="text-center">
-              <button class="btn purple-gradient" onClick = { () => this.downloadPdf()} >Create Test Result</button>
-            </div>
-        {console.log(this.state.test)}
+            {this.state.cards}
+            {this.state.cards2} 
+            {this.state.cards3}
+        </div>
+            
     </div>
        
       

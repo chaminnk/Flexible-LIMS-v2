@@ -429,7 +429,8 @@ class CreateFormFormBase extends Component {
         </div>
         <div class="text-center">      
           <button class="btn blue-gradient" onClick = { () => this.handleCreateForm(this.state.formName,this.state.specimen,this.state.testType,this.state.selectedNumericProperties,this.state.selectedOptionProperties, this.state.selectedTextProperties)}>Create Form</button>
-        </div>    
+        </div>  
+          
       </div>  
             
       

@@ -180,7 +180,55 @@ class UpdateTextPropertyPageFormBase extends Component {
     
     
   }
+  deleteProperty = (propertyKey) => {
+    let updates = {};
+    firebase.database().ref('/forms').orderByChild("textProperties").once('value').then(snap => {
+      let formKeys = [];
+
+ 
+      snap.forEach((child)=>{
+        
+          if("textProperties" in child.val()){
+           
+            child.val().textProperties.forEach((c)=>{
+              if(c.propertyKey===propertyKey){
+                let index = child.val().textProperties.findIndex(x => x.propertyKey === propertyKey) ;
+                formKeys.push({formKey:child.key, index: index});
+                
+              }
+            })
+            
+             
+          }
+        
+      })
+
+      
+      
+      formKeys.forEach(key => {
+        updates['forms/'+key.formKey+'/textProperties/'+key.index+'/propertyName'] = null;
+        
+        updates['forms/'+key.formKey+'/textProperties/'+key.index+'/id'] = null;
+        updates['forms/'+key.formKey+'/textProperties/'+key.index+'/propertyType'] = null;
+        updates['forms/'+key.formKey+'/textProperties/'+key.index+'/propertyKey'] = null;
+      });
+      this.updateDatabase(updates);
     
+    })
+    updates['/properties/' + propertyKey + '/propertyName'] = null;
+    
+    updates['/properties/' + propertyKey + '/createdBy'] = null;
+    updates['/properties/' + propertyKey + '/createdDate'] = null;
+    updates['/properties/' + propertyKey + '/propertyType'] = null;
+    firebase.database().ref().update(updates,function(error){
+      if(error){
+        alert(error.message);
+      }
+      else{
+        alert("Property details successfully deleted.");
+      }
+    });
+  }   
   updateDatabase = (updates) =>{
     firebase.database().ref().update(updates,function(error){
       if(error){
@@ -287,7 +335,15 @@ class UpdateTextPropertyPageFormBase extends Component {
       <div class="text-center">                    
         <button class="btn aqua-gradient" onClick = { () => this.updateProperty(this.state.propertyKey,this.state.propertyName, this.state.unitOfMeasurement, this.state.lowValue,this.state.highValue)} >Update Property</button>
         </div>
-       
+        <div>
+          {this.userType==='admin'?
+          <div style ={{marginTop: "50px"}} class="text-center">                    
+          <button type="button" class="btn btn-danger btn-rounded" onClick = { () => this.deleteProperty(this.state.propertyKey)}>Remove Property</button>
+            </div>
+            :
+            <div></div>
+            }
+        </div>
       </div>
 
 

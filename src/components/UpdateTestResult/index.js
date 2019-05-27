@@ -32,6 +32,13 @@ class UpdateTestDisplayBase extends Component {
          specimen: this.props.location.state.test.specimen,
          testType: this.props.location.state.test.testType,
          testResultKey: this.props.location.state.test.testResultKey, 
+         age: this.props.location.state.test.age,
+         email : this.props.location.state.test.email,  
+         firstName: this.props.location.state.test.firstName,
+         gender: this.props.location.state.test.gender,
+         lastName:this.props.location.state.test.lastName,
+         testFormKey: this.props.location.state.test.testFormKey,
+         userKey:this.props.location.state.test.userKey,
          loading: true,
          fire_loaded: false,
          fire_loaded1: false, 
@@ -183,7 +190,20 @@ class UpdateTestDisplayBase extends Component {
    // this.setState({ [event.target.name]: event.target.value }); // set the value to the corresponding name of the state in an onChange event
 
   };
-  updateTest = (testResultKey,referredBy,numericProperties,optionProperties,textProperties) => {
+  deleteProperty = (key) => {
+    firebase.database().ref('testResults/').child(key).remove().then(
+        function() {
+          // fulfillment
+          
+          alert("Test data has been removed successfully");
+          
+      },
+      function() {
+        // fulfillment
+        alert("Test data has not been removed successfully");
+    });
+  }
+  updateTest = (testResultKey,referredBy,numericProperties,optionProperties,textProperties,age,email,firstName,formName,gender,lastName,specimen,testFormKey,testType,userKey) => {
     let updates = {};
     updates['/testResults/' + testResultKey + '/referredBy'] = referredBy;
     if(numericProperties !== undefined){
@@ -197,7 +217,16 @@ class UpdateTestDisplayBase extends Component {
     }
     updates['/testResults/' + testResultKey + '/createdBy'] = firebase.auth().currentUser.email;
     updates['/testResults/' + testResultKey + '/createdDate'] =  this.state.timeStamp;
-    
+    updates['/testResults/' + testResultKey + '/age'] = age;
+    updates['/testResults/' + testResultKey + '/email'] = email;
+    updates['/testResults/' + testResultKey + '/firstName'] = firstName;
+    updates['/testResults/' + testResultKey + '/formName'] = formName;
+    updates['/testResults/' + testResultKey + '/gender'] = gender;
+    updates['/testResults/' + testResultKey + '/lastName'] = lastName;
+    updates['/testResults/' + testResultKey + '/specimen'] = specimen;
+    updates['/testResults/' + testResultKey + '/testFormKey'] = testFormKey;
+    updates['/testResults/' + testResultKey + '/testType'] = testType;
+    updates['/testResults/' + testResultKey + '/userKey'] = userKey;
     firebase.database().ref().update(updates,function(error){
         if(error){
           alert(error.message);
@@ -230,7 +259,8 @@ class UpdateTestDisplayBase extends Component {
         
         
             <div className="text-center">
-                <h3><i className="far fa-edit"></i> Update Test Result</h3>        
+                <h3><i className="far fa-edit"></i> Update Test Result</h3>
+                <h4>Press 'Update' after accidental removals to recover data</h4>        
             </div>
             
         
@@ -299,7 +329,10 @@ class UpdateTestDisplayBase extends Component {
             </div>
            
             <div style ={{marginTop: "25px"}} className="text-center">
-                <button className="btn purple-gradient" onClick = { () => this.updateTest(this.state.testResultKey,this.state.referredBy,this.state.numericProperties,this.state.optionProperties,this.state.textProperties)} >Update Test Result</button>
+                <button className="btn purple-gradient" onClick = { () => this.updateTest(this.state.testResultKey,this.state.referredBy,this.state.numericProperties,this.state.optionProperties,this.state.textProperties,this.state.age,this.state.email,this.state.firstName,this.state.formName,this.state.gender,this.state.lastName,this.state.specimen,this.state.testFormKey,this.state.testType,this.state.userKey)} >Update Test Result</button>
+            </div>
+            <div style ={{marginTop: "25px"} } className="text-center">
+              <button type="button" class="btn btn-danger btn-rounded" onClick = { () => this.deleteProperty(this.state.testResultKey)}>Remove</button>
             </div>
         </div>
 

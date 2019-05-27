@@ -31,6 +31,7 @@ class ViewUsersDisplayBase extends Component {
   async componentWillMount() {
     await firebase.database().ref('users/'+firebase.auth().currentUser.uid).once('value',(snapshot) => {
       this.userType = snapshot.val().userType;
+      this.setState({fire_loaded2:true});
       this.forceUpdate();
     });
     if (this.userType === 'patient' || this.userType === 'unapproved' ){
@@ -58,17 +59,17 @@ class ViewUsersDisplayBase extends Component {
     this.setState({ loading: false });
 
   }
-  deleteProperty = (key) => {
-    firebase.database().ref('users/').child(this.state.users[key]._key).remove().then(
-        function() {
-          // fulfillment
-          alert("User data has been removed successfully");
-      },
-      function() {
-        // fulfillment
-        alert("User data has not been removed successfully");
-    });
-  }
+  // deleteProperty = (key) => {
+  //   firebase.database().ref('users/').child(this.state.users[key]._key).remove().then(
+  //       function() {
+  //         // fulfillment
+  //         alert("User data has been removed successfully");
+  //     },
+  //     function() {
+  //       // fulfillment
+  //       alert("User data has not been removed successfully");
+  //   });
+  // }
   
     
 
@@ -100,16 +101,16 @@ class ViewUsersDisplayBase extends Component {
     //     alert("The first aid data '"+fetchedData.fetchedDataName+"' has not been removed successfully");
     // });
     // }
-    const DeletePropertyButton = ({griddleKey}) => (
-      <div>
-        <button type="button" class="btn btn-danger btn-rounded" onClick = { () => this.deleteProperty(griddleKey)}>Remove</button>
-      </div>);
+    // const DeletePropertyButton = ({griddleKey}) => (
+    //   <div>
+    //     <button type="button" class="btn btn-danger btn-rounded" onClick = { () => this.deleteProperty(griddleKey)}>Remove</button>
+    //   </div>);
     const CustomColumn = ({value}) => <span style={{ color: '#0000AA' }}>{value}</span>;
     const CustomHeading = ({title}) => <span style={{ color: '#AA0000' }}>{title}</span>;
    
     return (
       <div style ={{marginTop: "50px"}} >
-        {this.state.fire_loaded1 || this.userType === 'admin' || this.userType === 'ldo' ? // only if the firebase data are loaded or admins and laboratory data operators can view this page
+        {this.state.fire_loaded1 && this.state.fire_loaded2 ? // only if the firebase data are loaded or admins and laboratory data operators can view this page
         <div class="d-flex justify-content-center">
             <Griddle 
               
@@ -131,7 +132,7 @@ class ViewUsersDisplayBase extends Component {
                 <ColumnDefinition id="lastName" title="Last Name" customHeadingComponent={CustomHeading}/>
                 <ColumnDefinition id="email" title="Email" customHeadingComponent={CustomHeading} />
                 <ColumnDefinition id="userType" title="User Type" customHeadingComponent={CustomHeading} />
-                <ColumnDefinition id="" customComponent={DeletePropertyButton} />
+                
             </RowDefinition>
             </Griddle>
         </div>
