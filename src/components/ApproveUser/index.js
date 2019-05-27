@@ -100,7 +100,7 @@ class ApproveUsersDisplayBase extends Component {
     var updates = {};
     updates['/users/' + userKey + '/userType'] = userType;
     firebase.database().ref().update(updates).then(function(){
-      alert("User type successfully updated to "+toString(userType));
+      alert("User type successfully updated to ");
     }).catch(function(error){
       alert(error.message);
     });
@@ -149,7 +149,7 @@ class ApproveUsersDisplayBase extends Component {
       <div style ={{marginTop: "50px"}} >
         {this.state.fire_loaded1 || this.userType === 'admin'  ? // only if the firebase data are loaded or admins can view this page
         <div>
-            <div class="d-flex justify-content-center">
+            <div className="d-flex justify-content-center">
                 <Griddle 
                     pageProperties={pageProperties}
                     data={this.fetchedDatas} 
@@ -175,10 +175,10 @@ class ApproveUsersDisplayBase extends Component {
                 </Griddle>
                 
             </div>
-            <div  style ={{marginTop: "25px"}} class="d-flex justify-content-center ">
-            <div class="card w-50">
-                            <div class="md-form">
-                            <div class="text-center">
+            <div  style ={{marginTop: "25px"}} className="d-flex justify-content-center ">
+            <div className="card w-50">
+                            <div className="md-form">
+                            <div className="text-center">
                             Selected User : <input
                             name="email"
                     
@@ -188,8 +188,8 @@ class ApproveUsersDisplayBase extends Component {
                             /> 
                             </div>
                         </div>
-                        <div class="md-form">
-                            <div class="text-center">
+                        <div className="md-form">
+                            <div className="text-center">
                             Select User Type : <select name="userType" value={this.state.value} onChange={this.onChange}>
                                                     <option value="admin">Administrator</option>
                                                     <option value="ldo">Data Operator</option>
@@ -199,14 +199,14 @@ class ApproveUsersDisplayBase extends Component {
                         </div>
             </div>
             </div>
-            <div class="text-center">
-                <button class="btn aqua-gradient" onClick = { () => this.updateUser(this.state.userKey,this.state.email,  this.state.firstName, this.state.lastName,this.state.contactNum,this.state.dob, this.state.gender, this.state.userType)} >Update User</button>
+            <div className="text-center">
+                <button className="btn aqua-gradient" onClick = { () => this.updateUser(this.state.userKey,this.state.email,  this.state.firstName, this.state.lastName,this.state.contactNum,this.state.dob, this.state.gender, this.state.userType)} >Update User</button>
             </div>
         </div>
         :
-        <div style ={{marginTop: "50px"}} class = "d-flex justify-content-center">
-            <div class="spinner-border text-success" role="status">
-                <span class="sr-only">Loading...</span>
+        <div style ={{marginTop: "50px"}} className= "d-flex justify-content-center">
+            <div className="spinner-border text-success" role="status">
+                <span className="sr-only">Loading...</span>
             </div>
         </div>
         }

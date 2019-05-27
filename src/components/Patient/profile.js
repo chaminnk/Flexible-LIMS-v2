@@ -159,17 +159,17 @@ class PatientAccountPageFormBase extends Component {
       <div>
 
       
-      <div class="d-flex justify-content-center " style={{marginTop: "25px"}}>
+      <div className="d-flex justify-content-center " style={{marginTop: "25px"}}>
       
          
         
-      <div class="card" style={{width: "50em"}}>
-            <div class="text-center">
-                  <h3><i class="fas fa-user-plus"></i> Update Profile</h3>
-                  <hr class="mt-2 mb-2"></hr>
+      <div className="card" style={{width: "50em"}}>
+            <div className="text-center">
+                  <h3><i className="fas fa-user-plus"></i> Update Profile</h3>
+                  <hr className="mt-2 mb-2"></hr>
             </div>
-            <div class="md-form">
-                <div class="text-center">
+            <div className="md-form">
+                <div className="text-center">
               <input
                 name="firstName"
                 onChange={this.onChange}
@@ -180,8 +180,8 @@ class PatientAccountPageFormBase extends Component {
               />
               </div>
             </div>
-            <div class="md-form">
-                <div class="text-center">
+            <div className="md-form">
+                <div className="text-center">
               <input
                 name="lastName"
                 value={this.state.lastName}
@@ -193,8 +193,8 @@ class PatientAccountPageFormBase extends Component {
               />
               </div>
             </div>
-            <div class="md-form">
-                <div class="text-center">
+            <div className="md-form">
+                <div className="text-center">
                <input
                 name="email"
                 value={this.state.email}
@@ -205,16 +205,16 @@ class PatientAccountPageFormBase extends Component {
               />
             </div>
             </div>
-            <div class="d-flex justify-content-center ">
-                <div class="text-center">
+            <div className="d-flex justify-content-center ">
+                <div className="text-center">
                 <PhoneInput
                     placeholder="Enter Contact Number"
                     value={ this.state.contactNum }
                     onChange={ contactNum => this.setState({ contactNum }) } />
               </div>
             </div>
-            <div class="md-form">
-                <div class="text-center">
+            <div className="md-form">
+                <div className="text-center">
               <input
                 name="address"
                 value={this.state.address}
@@ -226,8 +226,8 @@ class PatientAccountPageFormBase extends Component {
               />
               </div>
             </div>
-            <div class="md-form">
-                  <div class="text-center">
+            <div className="md-form">
+                  <div className="text-center">
                   Date of Birth: <input
                   name="dob"
                   value={this.state.dob}
@@ -239,8 +239,8 @@ class PatientAccountPageFormBase extends Component {
                 />
                 </div>
               </div>
-              <div class="md-form">
-                <div class="text-center">
+              <div className="md-form">
+                <div className="text-center">
         
           Gender:
           <select name="gender" value={this.state.value} onChange={this.onChange}>
@@ -252,8 +252,8 @@ class PatientAccountPageFormBase extends Component {
             </div>
             <div>
               {this.state.userType==='admin'? 
-              <div class="md-form">
-                  <div class="text-center">
+              <div className="md-form">
+                  <div className="text-center">
                   Select User Type : <select name="userType" value={this.state.userType} onChange={this.onChange}>
                                           <option value="admin">Administrator</option>
                                           <option value="ldo">Data Operator</option>
@@ -268,8 +268,8 @@ class PatientAccountPageFormBase extends Component {
             
 
             
-            <div class="text-center">                    
-              <button class="btn aqua-gradient" onClick = { () => this.updateUser(this.state.email, this.state.firstName, this.state.lastName,this.state.contactNum,this.state.address,this.state.gender,this.state.dob,this.state.userType)} >Update Profile</button>
+            <div className="text-center">                    
+              <button className="btn aqua-gradient" onClick = { () => this.updateUser(this.state.email, this.state.firstName, this.state.lastName,this.state.contactNum,this.state.address,this.state.gender,this.state.dob,this.state.userType)} >Update Profile</button>
               </div>
              
             </div>
@@ -280,8 +280,8 @@ class PatientAccountPageFormBase extends Component {
       </div>
       :
       <div style ={{marginTop: "50px"}} class = "d-flex justify-content-center">
-          <div class="spinner-border text-success" role="status">
-            <span class="sr-only">Loading...</span>
+          <div className="spinner-border text-success" role="status">
+            <span className="sr-only">Loading...</span>
           </div>
         </div>
       }

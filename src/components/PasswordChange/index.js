@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 
 import { withFirebase } from '../Firebase';
-import * as ROUTES from '../../constants/routes';
-
+import { withAuthorization } from '../Session';
 import { AuthUserContext } from '../Session';
 import {AccountNavBar} from '../AccountNavBar';
 
@@ -71,14 +69,14 @@ class PasswordChangeFormBase extends Component {
 
     return (
       <div style ={{marginTop: "50px"}} >
-      <div class="d-flex justify-content-center ">
-      <div class="card" style={{width: "18rem"}}>
-            <div class="text-center">
-                <h3><i class="fas fa-sign-in-alt"></i> Update Password</h3>
+      <div className="d-flex justify-content-center ">
+      <div className="card" style={{width: "18rem"}}>
+            <div className="text-center">
+                <h3><i className="fas fa-user-plus"></i> Update Password</h3>
                 
             </div>
-            <div class="md-form">
-                <div class="text-center">
+            <div className="md-form">
+                <div className="text-center">
         <input
           name="passwordOne"
           value={this.state.passwordOne}
@@ -88,8 +86,8 @@ class PasswordChangeFormBase extends Component {
         />
              </div>
            </div>
-           <div class="text-center">
-                <div class="md-form">
+           <div className="text-center">
+                <div className="md-form">
         <input
           name="passwordTwo"
           value={this.state.passwordTwo}
@@ -99,8 +97,8 @@ class PasswordChangeFormBase extends Component {
         />
         </div>
               </div>
-        <div class="text-center">
-          <button class="btn blue-gradient" onClick = { () => this.resetPassword(this.state.passwordOne,this.state.passwordTwo)}>Reset Password</button>
+        <div className="text-center">
+          <button className="btn blue-gradient" onClick = { () => this.resetPassword(this.state.passwordOne,this.state.passwordTwo)}>Reset Password</button>
           
           </div> 
         {/* <button disabled={isInvalid} type="submit">
@@ -116,8 +114,8 @@ class PasswordChangeFormBase extends Component {
     );
   }
 }
-
-export default PasswordChangeFormPage;
+const authCondition = authUser => !!authUser;
+export default withAuthorization(authCondition)(PasswordChangeFormPage)
 const PasswordChangeForm = withFirebase(PasswordChangeFormBase);
 
 export {PasswordChangeForm};

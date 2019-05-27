@@ -110,8 +110,8 @@ class TestListDisplayBase extends Component {
       <div style ={{marginTop: "50px"}} >
         {this.state.fire_loaded1 && this.state.fire_loaded2 ? // only if the firebase data are loaded and admins or laboratory data operators can view this page
         <div>
-        <div class="text-center">
-             <h5><i class="fas fa-hand-pointer"></i> Click on a test to update test result</h5>
+        <div className="text-center">
+             <h5><i className="fas fa-hand-pointer"></i> Click on a test to update test result</h5>
 
         </div>
         <div style={{cursor: "pointer" ,marginTop: "25px"}} className="d-flex justify-content-center">
@@ -142,9 +142,9 @@ class TestListDisplayBase extends Component {
         </div>
         </div>
         :
-        <div style ={{marginTop: "50px"}} class = "d-flex justify-content-center">
-          <div class="spinner-border text-success" role="status">
-            <span class="sr-only">Loading...</span>
+        <div style ={{marginTop: "50px"}} className= "d-flex justify-content-center">
+          <div className="spinner-border text-success" role="status">
+            <span className="sr-only">Loading...</span>
           </div>
         </div>
         }

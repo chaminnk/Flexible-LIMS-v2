@@ -84,7 +84,7 @@ class ViewNumericPropertiesDisplayBase extends Component {
       <div>
       {this.state.fire_loaded1 || this.userType === 'admin' || this.userType === 'ldo' ?  // only if the firebase data are loaded or admins and laboratory data operators can view this page
       <div style ={{marginTop: "50px"}} >
-        <div class="d-flex justify-content-center">
+        <div className ="d-flex justify-content-center">
             <Griddle 
                 data={this.state.properties} 
                 plugins={[plugins.LocalPlugin]}
@@ -102,9 +102,9 @@ class ViewNumericPropertiesDisplayBase extends Component {
         </div>
       </div>  
       :
-      <div style ={{marginTop: "50px"}} class = "d-flex justify-content-center">
-          <div class="spinner-border text-success" role="status">
-            <span class="sr-only">Loading...</span>
+      <div style ={{marginTop: "50px"}} className = "d-flex justify-content-center">
+          <div className ="spinner-border text-success" role="status">
+            <span className ="sr-only">Loading...</span>
           </div>
         </div>
       }

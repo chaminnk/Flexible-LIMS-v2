@@ -148,15 +148,15 @@ class CreateOptonPropertyFormBase extends Component {
         
 
 
-      <div style ={{marginTop: "50px"}} class="d-flex justify-content-center ">
-          <div class="card" style={{width: "18rem"}}>
-            <div class="text-center">
-                <h3><i class="far fa-edit"></i>Create Option Property</h3>
+      <div style ={{marginTop: "50px"}} className="d-flex justify-content-center ">
+          <div className="card" style={{width: "18rem"}}>
+            <div className="text-center">
+                <h3><i className="far fa-edit"></i>Create Option Property</h3>
                 
             </div>
            
-                <div class="md-form">
-                <div class="text-center">
+                <div className="md-form">
+                <div className="text-center">
                 <input
                     name="propertyName"
                     value={this.state.propertyName}
@@ -167,8 +167,8 @@ class CreateOptonPropertyFormBase extends Component {
                  </div>
                 </div>
 
-                <div class="md-form">
-                <div class="text-center">
+                <div className="md-form">
+                <div className="text-center">
                 {this.state.options.map((option,idx)=>{
                     return(
                         <div>
@@ -181,7 +181,7 @@ class CreateOptonPropertyFormBase extends Component {
                             <button
                                 type="button"
                                 onClick={this.handleRemoveOption(idx)}
-                                class= 'btn btn-outline-danger waves-effect'
+                                className= 'btn btn-outline-danger waves-effect'
                                 >
                                 Remove
                             </button>
@@ -192,16 +192,16 @@ class CreateOptonPropertyFormBase extends Component {
                 
                  </div>
                 </div>
-                <div class="text-center">
-                <button class="btn blue-btn btn-outline-success waves-effect" onClick = { this.handleAddOption}>Add Option</button>
+                <div className="text-center">
+                <button className="btn blue-btn btn-outline-success waves-effect" onClick = { this.handleAddOption}>Add Option</button>
                
                 
                 </div>   
                 
                
-                <div style ={{marginTop: "50px"}} class="text-center">
+                <div style ={{marginTop: "50px"}} className="text-center">
                 
-                <button class="btn peach-gradient" onClick = { () => this.addProperty(this.state.propertyName, this.state.options)}>Create Property</button>
+                <button className="btn peach-gradient" onClick = { () => this.addProperty(this.state.propertyName, this.state.options)}>Create Property</button>
                 
                 </div>       
          
@@ -210,9 +210,9 @@ class CreateOptonPropertyFormBase extends Component {
         </div>
         :
         <div>
-            <div style ={{marginTop: "50px"}} class = "d-flex justify-content-center">
-                <div class="spinner-border text-success" role="status">
-                    <span class="sr-only">Loading...</span>
+            <div style ={{marginTop: "50px"}} className= "d-flex justify-content-center">
+                <div className="spinner-border text-success" role="status">
+                    <span className="sr-only">Loading...</span>
                 </div>
             </div>
         </div>

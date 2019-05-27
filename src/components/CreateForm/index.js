@@ -41,7 +41,7 @@ class CreateFormFormBase extends Component {
   // handleChange(event) {
   //   this.setState({firstName: event.target.firstName});
   // }
-  numericDatas= [];
+
   async componentWillMount() {
      //user authorization
      await firebase.database().ref('users/'+firebase.auth().currentUser.uid).once('value',(snapshot) => {
@@ -258,11 +258,11 @@ class CreateFormFormBase extends Component {
       {this.state.fire_loaded && this.state.fire_loaded2  ?
       <div style ={{marginTop: "50px"}} >
       
-        <div class="text-center">
-           <h3><i class="far fa-edit"></i> Create Test Form</h3>        
+        <div className="text-center">
+           <h3><i className="far fa-edit"></i> Create Test Form</h3>        
         </div>
-        <div class="md-form">
-          <div class="text-center">
+        <div className="md-form">
+          <div className="text-center">
             <input
                 name="formName"
                 onChange={this.onChange}
@@ -273,8 +273,8 @@ class CreateFormFormBase extends Component {
             />
           </div>
         </div>
-        <div class="md-form">
-          <div class="text-center">
+        <div className="md-form">
+          <div className="text-center">
             <input
                 name="specimen"
                 onChange={this.onChange}
@@ -285,8 +285,8 @@ class CreateFormFormBase extends Component {
             />
           </div>
         </div>
-        <div class="md-form">
-          <div class="text-center">
+        <div className="md-form">
+          <div className="text-center">
             <input
                 name="testType"
                 onChange={this.onChange}
@@ -300,19 +300,19 @@ class CreateFormFormBase extends Component {
         <div style ={{marginTop: "25px"}} >
       
         
-        <div  class="d-flex justify-content-center">
+        <div  className="d-flex justify-content-center">
 
 
 </div>
        
-        <div style ={{marginTop: "25px"}} class="text-center">
-          <h5><i class="fas fa-check"></i> Click on the check boxes to select field properties for the Test Form</h5 >   
+        <div style ={{marginTop: "25px"}} className="text-center">
+          <h5><i className="fas fa-check"></i> Click on the check boxes to select field properties for the Test Form</h5 >   
         </div>
         
         
-        <div  style ={{marginTop: "25px"}} class="d-flex justify-content-center">
+        <div  style ={{marginTop: "25px"}} className="d-flex justify-content-center">
             
-            <div class="d-flex justify-content-center">
+            <div className="d-flex justify-content-center">
               <Griddle 
                   pageProperties={pageProperties}
                   data={this.state.numericProperties} 
@@ -331,9 +331,9 @@ class CreateFormFormBase extends Component {
             </div>
             
         </div>
-        <div style ={{marginTop: "25px"}} class="d-flex justify-content-center">
+        <div style ={{marginTop: "25px"}} className="d-flex justify-content-center">
             
-            <div class="d-flex justify-content-center">
+            <div className="d-flex justify-content-center">
               <Griddle 
                   pageProperties={pageProperties}
                   data={this.state.optionDataDisplay} 
@@ -351,9 +351,9 @@ class CreateFormFormBase extends Component {
             
         </div>
 
-        <div style ={{marginTop: "25px"}} class="d-flex justify-content-center">
+        <div style ={{marginTop: "25px"}} className="d-flex justify-content-center">
             
-            <div class="d-flex justify-content-center">
+            <div className="d-flex justify-content-center">
               <Griddle 
                   pageProperties={pageProperties}
                   data={this.state.textProperties} 
@@ -372,10 +372,10 @@ class CreateFormFormBase extends Component {
         </div>
 
         {/*~~~~~~~~~~~~~~~~~Selected Numeric Properties~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/}
-        <div style ={{marginTop: "25px"}} class="text-center">
-          <h5><i class="far fa-edit"></i> Selected numeric properties that will be used to create the Test Form</h5 >   
+        <div style ={{marginTop: "25px"}} className="text-center">
+          <h5><i className="far fa-edit"></i> Selected numeric properties that will be used to create the Test Form</h5 >   
         </div>
-        <div class="d-flex justify-content-center">
+        <div className="d-flex justify-content-center">
             <Griddle 
                 data={this.state.selectedNumericProperties} 
                 plugins={[plugins.LocalPlugin]}
@@ -390,10 +390,10 @@ class CreateFormFormBase extends Component {
         </div>
 
         {/*~~~~~~~~~~~~~~~~~Selected Option Properties~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/}
-        <div style ={{marginTop: "25px"}} class="text-center">
-          <h5><i class="far fa-edit"></i> Selected option properties that will be used to create the Test Form</h5 >   
+        <div style ={{marginTop: "25px"}} className="text-center">
+          <h5><i className="far fa-edit"></i> Selected option properties that will be used to create the Test Form</h5 >   
         </div>
-        <div class="d-flex justify-content-center">
+        <div className="d-flex justify-content-center">
             <Griddle 
                 data={this.state.selectedOptionProperties} 
                 plugins={[plugins.LocalPlugin]}
@@ -408,10 +408,10 @@ class CreateFormFormBase extends Component {
         </div>
 
          {/*~~~~~~~~~~~~~~~~~Selected Text Properties~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/}
-        <div style ={{marginTop: "25px"}} class="text-center">
-          <h5><i class="far fa-edit"></i> Selected text properties that will be used to create the Test Form</h5 >   
+        <div style ={{marginTop: "25px"}} className="text-center">
+          <h5><i className="far fa-edit"></i> Selected text properties that will be used to create the Test Form</h5 >   
         </div>
-        <div class="d-flex justify-content-center">
+        <div className="d-flex justify-content-center">
             <Griddle 
                 data={this.state.selectedTextProperties} 
                 plugins={[plugins.LocalPlugin]}
@@ -424,8 +424,8 @@ class CreateFormFormBase extends Component {
             </RowDefinition>
             </Griddle>
         </div>
-        <div class="text-center">      
-          <button class="btn blue-gradient" onClick = { () => this.handleCreateForm(this.state.formName,this.state.specimen,this.state.testType,this.state.selectedNumericProperties,this.state.selectedOptionProperties, this.state.selectedTextProperties)}>Create Form</button>
+        <div className="text-center">      
+          <button className="btn blue-gradient" onClick = { () => this.handleCreateForm(this.state.formName,this.state.specimen,this.state.testType,this.state.selectedNumericProperties,this.state.selectedOptionProperties, this.state.selectedTextProperties)}>Create Form</button>
         </div>  
           
       </div>  
@@ -434,9 +434,9 @@ class CreateFormFormBase extends Component {
       </div>
       :
       <div>
-        <div style ={{marginTop: "50px"}} class = "d-flex justify-content-center">
-            <div class="spinner-border text-success" role="status">
-                <span class="sr-only">Loading...</span>
+        <div style ={{marginTop: "50px"}} className= "d-flex justify-content-center">
+            <div className="spinner-border text-success" role="status">
+                <span className="sr-only">Loading...</span>
             </div>
         </div>
       </div>

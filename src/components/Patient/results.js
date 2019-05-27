@@ -78,11 +78,11 @@ class ViewResultsDisplayBase extends Component {
         }) 
        
         
-        //console.log(this.state.results);
+       
         
         this.setState({fire_loaded1:true});
         //this.setState({tests: this.fetchedDatas2})
-        //console.log(this.state.tests);
+        
        // this.forceUpdate();
         
       
@@ -157,7 +157,7 @@ class ViewResultsDisplayBase extends Component {
         <div style ={{marginTop: "50px"}} >
     
           {this.state.fire_loaded1 || this.userType === 'admin' || this.userType === 'ldo' ? // only if the firebase data are loaded or admins and laboratory data operators can view this page
-          <div class="d-flex justify-content-center">
+          <div className="d-flex justify-content-center">
           
   
           <Griddle 
@@ -182,9 +182,9 @@ class ViewResultsDisplayBase extends Component {
             </Griddle>
           </div>
           :
-          <div class = "d-flex justify-content-center">
-          <div class="spinner-grow text-primary" role="status">
-            <span class="sr-only">Loading...</span>
+          <div className= "d-flex justify-content-center">
+          <div className="spinner-grow text-primary" role="status">
+            <span className="sr-only">Loading...</span>
           </div>
         </div>
           }

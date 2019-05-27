@@ -100,11 +100,11 @@ class AddPropertyDisplayBase extends Component {
      
         <div style ={{marginTop: "50px"}} >
     
-          <div class="text-center">
-                    <h5><i class="fas fa-hand-pointer"></i> Click on a property data type to add</h5>
+          <div className="text-center">
+                    <h5><i className="fas fa-hand-pointer"></i> Click on a property data type to add</h5>
           
           </div>
-          <div class="d-flex justify-content-center">
+          <div className="d-flex justify-content-center">
           
   
           <Griddle 

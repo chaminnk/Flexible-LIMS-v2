@@ -205,13 +205,13 @@ class UpdateFormDisplayBase extends Component {
       <div>
 
 <div style ={{marginTop: "25px"}} >
-    <div style ={{marginTop: "25px"}} class="d-flex justify-content-center">
-            <h5><i class="fas fa-hand-pointer"></i> Click on a Form to update </h5>
+    <div style ={{marginTop: "25px"}} className="d-flex justify-content-center">
+            <h5><i className="fas fa-hand-pointer"></i> Click on a Form to update </h5>
             
     
     </div>
     
-    <div class="d-flex justify-content-center">
+    <div className="d-flex justify-content-center">
     <Griddle 
               pageProperties={pageProperties}
               data={this.state.forms} 
@@ -237,18 +237,18 @@ class UpdateFormDisplayBase extends Component {
     </div>
 </div>
 <div>{this.state.selected?
-    <div style ={{marginTop: "25px"}} class="d-flex justify-content-center ">
+    <div style ={{marginTop: "25px"}} className="d-flex justify-content-center ">
       
          
         
-    <div class="card  " style={{width: "50em"}}>
-      <div class="text-center">
-            <h3><i class="far fa-edit"></i> Update Form</h3>
+    <div className="card  " style={{width: "50em"}}>
+      <div className="text-center">
+            <h3><i className="far fa-edit"></i> Update Form</h3>
             <h4>Press 'Update' after accidental removals to recover data</h4>
-            <hr class="mt-2 mb-2"></hr>
+            <hr className="mt-2 mb-2"></hr>
       </div>
-      <div class="md-form">
-          <div class="text-center">
+      <div className="md-form">
+          <div className="text-center">
         <input
           name="formName"
           onChange={this.onChange}
@@ -259,8 +259,8 @@ class UpdateFormDisplayBase extends Component {
         />
         </div>
       </div>
-      <div class="md-form">
-          <div class="text-center">
+      <div className="md-form">
+          <div className="text-center">
         <input 
           name="specimen"
           onChange={this.onChange}
@@ -271,8 +271,8 @@ class UpdateFormDisplayBase extends Component {
         />
         </div>
       </div>
-      <div class="md-form">
-          <div class="text-center">
+      <div className="md-form">
+          <div className="text-center">
         <input 
           name="testType"
           onChange={this.onChange}
@@ -285,11 +285,11 @@ class UpdateFormDisplayBase extends Component {
       </div>
 
       
-      <div style ={{marginTop: "50px"}} class="text-center">                    
-        <button class="btn aqua-gradient" onClick = { () => this.updateProperty(this.state.formKey,this.state.formName,this.state.specimen,this.state.testType,this.state.numericProperties,this.state.optionProperties,this.state.textProperties)} >Update Form</button>
+      <div style ={{marginTop: "50px"}} className="text-center">                    
+        <button className="btn aqua-gradient" onClick = { () => this.updateProperty(this.state.formKey,this.state.formName,this.state.specimen,this.state.testType,this.state.numericProperties,this.state.optionProperties,this.state.textProperties)} >Update Form</button>
         </div>
-        <div style ={{marginTop: "50px"}} class="text-center">                    
-      <button type="button" class="btn btn-danger btn-rounded" onClick = { () => this.deleteProperty(this.state.formKey)}>Remove Form</button>
+        <div style ={{marginTop: "50px"}} className="text-center">                    
+      <button type="button" className="btn btn-danger btn-rounded" onClick = { () => this.deleteProperty(this.state.formKey)}>Remove Form</button>
         </div>
        
       </div>
@@ -298,15 +298,15 @@ class UpdateFormDisplayBase extends Component {
 
 </div>
 :
-<div class = "d-flex justify-content-center">Waiting for selection...</div>}
+<div className= "d-flex justify-content-center">Waiting for selection...</div>}
 </div>
       
      
       </div>
       :
-      <div style ={{marginTop: "50px"}} class = "d-flex justify-content-center">
-          <div class="spinner-border text-success" role="status">
-            <span class="sr-only">Loading...</span>
+      <div style ={{marginTop: "50px"}} className= "d-flex justify-content-center">
+          <div className="spinner-border text-success" role="status">
+            <span className="sr-only">Loading...</span>
           </div>
         </div>
       }

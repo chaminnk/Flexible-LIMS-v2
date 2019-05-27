@@ -101,10 +101,10 @@ class ViewFormsDisplayBase extends Component {
       var cards3 = [];
       for (var k = 0; k < this.state.textProperties.length; k++) {
         if(this.state.textProperties[k]!== undefined){
-          cards3.push(<div style ={{marginTop: "25px"}} class="d-flex justify-content-center ">
-          <div class="card " style={{width: "50em"}}>
-          <div class="md-form">
-                          <div class="text-center">
+          cards3.push(<div style ={{marginTop: "25px"}} className="d-flex justify-content-center ">
+          <div className="card " style={{width: "50em"}}>
+          <div className="md-form">
+                          <div className="text-center">
                         {this.state.textProperties[k].propertyName} : <input
                           name={this.state.textProperties[k].propertyKey}
                   

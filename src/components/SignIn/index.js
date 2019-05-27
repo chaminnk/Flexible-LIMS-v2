@@ -67,15 +67,15 @@ class SignInFormBase extends Component {
    
     return (
       <div style ={{marginTop: "50px"}} >
-      <div class="d-flex justify-content-center ">
-      <div class="card" style={{width: "18rem"}}>
-            <div class="text-center">
-                <h3><i class="fas fa-sign-in-alt"></i> Log In</h3>
+      <div className="d-flex justify-content-center ">
+      <div className="card" style={{width: "18rem"}}>
+            <div className="text-center">
+                <h3><i className="fas fa-sign-in-alt"></i> Log In</h3>
                 
             </div>
            
-                <div class="md-form">
-                <div class="text-center">
+                <div className="md-form">
+                <div className="text-center">
                 <input
                     name="email"
                     value={this.state.email}
@@ -85,8 +85,8 @@ class SignInFormBase extends Component {
                 />
                  </div>
                 </div>
-                <div class="text-center">
-                <div class="md-form">
+                <div className="text-center">
+                <div className="md-form">
                 <input
                     name="password"
                     value={this.state.password}
@@ -96,8 +96,8 @@ class SignInFormBase extends Component {
                 />
                 </div>
                 </div>
-                <div class="text-center">
-                <button id = "login_button" class="btn blue-gradient" onClick = { () => this.loginUser(this.state.email, this.state.password)}>Log In</button>
+                <div className="text-center">
+                <button id = "login_button" className="btn blue-gradient" onClick = { () => this.loginUser(this.state.email, this.state.password)}>Log In</button>
                 <PasswordForgetLink />
                 </div>     
              

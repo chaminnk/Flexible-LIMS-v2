@@ -103,7 +103,7 @@ class ViewUsersDisplayBase extends Component {
     // }
     // const DeletePropertyButton = ({griddleKey}) => (
     //   <div>
-    //     <button type="button" class="btn btn-danger btn-rounded" onClick = { () => this.deleteProperty(griddleKey)}>Remove</button>
+    //     <button type="button" className ="btn btn-danger btn-rounded" onClick = { () => this.deleteProperty(griddleKey)}>Remove</button>
     //   </div>);
     const CustomColumn = ({value}) => <span style={{ color: '#0000AA' }}>{value}</span>;
     const CustomHeading = ({title}) => <span style={{ color: '#AA0000' }}>{title}</span>;
@@ -111,7 +111,7 @@ class ViewUsersDisplayBase extends Component {
     return (
       <div style ={{marginTop: "50px"}} >
         {this.state.fire_loaded1 && this.state.fire_loaded2 ? // only if the firebase data are loaded or admins and laboratory data operators can view this page
-        <div class="d-flex justify-content-center">
+        <div className ="d-flex justify-content-center">
             <Griddle 
               
                 data={this.fetchedDatas} 
@@ -129,9 +129,9 @@ class ViewUsersDisplayBase extends Component {
             </Griddle>
         </div>
         :
-        <div style ={{marginTop: "50px"}} class = "d-flex justify-content-center">
-          <div class="spinner-border text-success" role="status">
-            <span class="sr-only">Loading...</span>
+        <div style ={{marginTop: "50px"}} className = "d-flex justify-content-center">
+          <div className ="spinner-border text-success" role="status">
+            <span className ="sr-only">Loading...</span>
           </div>
         </div>
         }

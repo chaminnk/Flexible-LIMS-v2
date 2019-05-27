@@ -126,10 +126,10 @@ class UpdateTestDisplayBase extends Component {
         var cards3 = [];
         for (var k = 0; k < this.state.textProperties.length; k++) {
           
-          cards3.push(<div style ={{marginTop: "25px"}} class="d-flex justify-content-center ">
-          <div class="card w-50">
-          <div class="md-form">
-                          <div class="text-center">
+          cards3.push(<div style ={{marginTop: "25px"}} className="d-flex justify-content-center ">
+          <div className="card w-50">
+          <div className="md-form">
+                          <div className="text-center">
                         {this.state.textProperties[k].propertyName} : <input
                           name={this.state.textProperties[k].propertyKey}
                   
@@ -245,7 +245,7 @@ class UpdateTestDisplayBase extends Component {
     
    
     
-//console.log(this.state);
+
     return (
 
         /* ~~~~~~~~~~~~~~~~PATIENT SELECTION~~~~~~~~~~~~~~~~~~~~~~ */  
@@ -332,7 +332,7 @@ class UpdateTestDisplayBase extends Component {
                 <button className="btn purple-gradient" onClick = { () => this.updateTest(this.state.testResultKey,this.state.referredBy,this.state.numericProperties,this.state.optionProperties,this.state.textProperties,this.state.age,this.state.email,this.state.firstName,this.state.formName,this.state.gender,this.state.lastName,this.state.specimen,this.state.testFormKey,this.state.testType,this.state.userKey)} >Update Test Result</button>
             </div>
             <div style ={{marginTop: "25px"} } className="text-center">
-              <button type="button" class="btn btn-danger btn-rounded" onClick = { () => this.deleteProperty(this.state.testResultKey)}>Remove</button>
+              <button type="button" className="btn btn-danger btn-rounded" onClick = { () => this.deleteProperty(this.state.testResultKey)}>Remove</button>
             </div>
         </div>
 

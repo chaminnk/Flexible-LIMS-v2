@@ -53,7 +53,7 @@ class HomeFormBase extends Component {
         <div>
         {this.userType === 'admin' || this.userType === 'ldo' ?
         <div id="content" style={{marginLeft:"242px" , marginRight: "120px", marginTop: "25px"}}>
-        {/* <div class="container" style={{maxWidth: "1555px" , marginLeft:"120px" , marginRight: "120px", marginTop: "25px"}}> */}
+        {/* <div className="container" style={{maxWidth: "1555px" , marginLeft:"120px" , marginRight: "120px", marginTop: "25px"}}> */}
                 
         
          
@@ -61,41 +61,41 @@ class HomeFormBase extends Component {
         
     
                 
-                <div class="row">
-                    <div class="col-sm-4 center-responsive">
+                <div className="row">
+                    <div className="col-sm-4 center-responsive">
                         
-                          <div class="card " style={{width: "18rem"}}>
+                          <div className="card " style={{width: "18rem"}}>
                               <div className="text-center">
                                   <h3>Create Property</h3>
                                   
                               </div>
                               <p></p>
-                              <div class="text-center">  
-                                  <button class="btn purple-gradient" onClick = { () => this.props.history.push(ROUTES.ADD_PROPERTY)}>Create Property</button>
+                              <div className="text-center">  
+                                  <button className="btn purple-gradient" onClick = { () => this.props.history.push(ROUTES.ADD_PROPERTY)}>Create Property</button>
                               </div>  
                         </div>
                     </div>
-                    <div class="col-sm-4 center-responsive">
-                    <div class="card " style={{width: "18rem"}}>
+                    <div className="col-sm-4 center-responsive">
+                    <div className="card " style={{width: "18rem"}}>
                               <div className="text-center">
                                   <h3>Create Form</h3>
                                   
                               </div>
                               <p></p>
-                              <div class="text-center">  
-                                  <button class="btn purple-gradient" onClick = { () => this.props.history.push(ROUTES.CREATE_FORM)}>Create Form</button>
+                              <div className="text-center">  
+                                  <button className="btn purple-gradient" onClick = { () => this.props.history.push(ROUTES.CREATE_FORM)}>Create Form</button>
                               </div>  
                         </div>
                     </div>
-                    <div class="col-sm-4 center-responsive">
-                    <div class="card " style={{width: "18rem"}}>
+                    <div className="col-sm-4 center-responsive">
+                    <div className="card " style={{width: "18rem"}}>
                               <div className="text-center">
                                   <h3>Create Test</h3>
                                   
                               </div>
                               <p></p>
-                              <div class="text-center">  
-                                  <button class="btn purple-gradient" onClick = { () => this.props.history.push(ROUTES.CREATE_RESULT)}>Create Test</button>
+                              <div className="text-center">  
+                                  <button className="btn purple-gradient" onClick = { () => this.props.history.push(ROUTES.CREATE_RESULT)}>Create Test</button>
                               </div>  
                         </div>
                     </div>
@@ -103,81 +103,81 @@ class HomeFormBase extends Component {
                 
   
   
-                <div class="row" style ={{marginTop: "100px"}}>
-                    <div class="col-sm-4 center-responsive">
+                <div className="row" style ={{marginTop: "100px"}}>
+                    <div className="col-sm-4 center-responsive">
                         
-                          <div class="card " style={{width: "18rem"}}>
+                          <div className="card " style={{width: "18rem"}}>
                               <div className="text-center">
                                   <h3>View Properties</h3>
                                   
                               </div>
                               <p></p>
-                              <div class="text-center">  
-                                  <button class="btn aqua-gradient" onClick = { () => this.props.history.push(ROUTES.VIEW_PROPERTIES)}>View Properties</button>
+                              <div className="text-center">  
+                                  <button className="btn aqua-gradient" onClick = { () => this.props.history.push(ROUTES.VIEW_PROPERTIES)}>View Properties</button>
                               </div>  
                         </div>
                     </div>
-                    <div class="col-sm-4 center-responsive">
-                    <div class="card " style={{width: "18rem"}}>
+                    <div className="col-sm-4 center-responsive">
+                    <div className="card " style={{width: "18rem"}}>
                               <div className="text-center">
                                   <h3>View Forms</h3>
                                   
                               </div>
                               <p></p>
-                              <div class="text-center">  
-                                  <button class="btn aqua-gradient" onClick = { () => this.props.history.push(ROUTES.FORM_LIST)}>View Forms</button>
+                              <div className="text-center">  
+                                  <button className="btn aqua-gradient" onClick = { () => this.props.history.push(ROUTES.FORM_LIST)}>View Forms</button>
                               </div>  
                         </div>
                     </div>
-                    <div class="col-sm-4 center-responsive">
-                    <div class="card " style={{width: "18rem"}}>
+                    <div className="col-sm-4 center-responsive">
+                    <div className="card " style={{width: "18rem"}}>
                               <div className="text-center">
                                   <h3>View Tests</h3>
                                   
                               </div>
                               <p></p>
-                              <div class="text-center">  
-                                  <button class="btn aqua-gradient" onClick = { () => this.props.history.push(ROUTES.PATIENT_LIST)}>View Tests</button>
+                              <div className="text-center">  
+                                  <button className="btn aqua-gradient" onClick = { () => this.props.history.push(ROUTES.PATIENT_LIST)}>View Tests</button>
                               </div>  
                         </div>
                     </div>
                 </div>
   
-                <div class="row" style ={{marginTop: "100px"}}>
-                    <div class="col-sm-4 center-responsive">
+                <div className="row" style ={{marginTop: "100px"}}>
+                    <div className="col-sm-4 center-responsive">
                         
-                          <div class="card " style={{width: "18rem"}}>
+                          <div className="card " style={{width: "18rem"}}>
                               <div className="text-center">
                                   <h3>Update Property</h3>
                                   
                               </div>
                               <p></p>
-                              <div class="text-center">  
-                                  <button class="btn peach-gradient" onClick = { () => this.props.history.push(ROUTES.UPDATE_PROPERTY)}>Update Property</button>
+                              <div className="text-center">  
+                                  <button className="btn peach-gradient" onClick = { () => this.props.history.push(ROUTES.UPDATE_PROPERTY)}>Update Property</button>
                               </div>  
                         </div>
                     </div>
-                    <div class="col-sm-4 center-responsive">
-                    <div class="card " style={{width: "18rem"}}>
+                    <div className="col-sm-4 center-responsive">
+                    <div className="card " style={{width: "18rem"}}>
                               <div className="text-center">
                                   <h3>Update Form</h3>
                                   
                               </div>
                               <p></p>
-                              <div class="text-center">  
-                                  <button class="btn peach-gradient" onClick = { () => this.props.history.push(ROUTES.UPDATE_FORM)}>Update Form</button>
+                              <div className="text-center">  
+                                  <button className="btn peach-gradient" onClick = { () => this.props.history.push(ROUTES.UPDATE_FORM)}>Update Form</button>
                               </div>  
                         </div>
                     </div>
-                    <div class="col-sm-4 center-responsive">
-                    <div class="card " style={{width: "18rem"}}>
+                    <div className="col-sm-4 center-responsive">
+                    <div className="card " style={{width: "18rem"}}>
                               <div className="text-center">
                                   <h3>Update Test</h3>
                                   
                               </div>
                               <p></p>
-                              <div class="text-center">  
-                                  <button class="btn peach-gradient" onClick = { () => this.props.history.push(ROUTES.PATIENT_LIST)}>Update Test</button>
+                              <div className="text-center">  
+                                  <button className="btn peach-gradient" onClick = { () => this.props.history.push(ROUTES.PATIENT_LIST)}>Update Test</button>
                               </div>  
                         </div>
                     </div>
@@ -187,7 +187,7 @@ class HomeFormBase extends Component {
     </div>
     :
     <div id="content">
-        <div class="container" style={{maxWidth: "2000px" , marginLeft:"120px" , marginRight: "120px", marginTop: "25px"}}>
+        <div className="container" style={{maxWidth: "2000px" , marginLeft:"120px" , marginRight: "120px", marginTop: "25px"}}>
                 
         
          
@@ -195,17 +195,17 @@ class HomeFormBase extends Component {
         
     
                 
-                <div class="row">
-                    <div class="col-sm-4 center-responsive">
+                <div className="row">
+                    <div className="col-sm-4 center-responsive">
                         
-                          <div class="card " style={{width: "18rem"}}>
+                          <div className="card " style={{width: "18rem"}}>
                               <div className="text-center">
                                   <h3>My Test Results</h3>
                                   
                               </div>
                               <p></p>
-                              <div class="text-center">  
-                                  <button class="btn purple-gradient" onClick = { () => this.props.history.push(ROUTES.VIEW_PATIENT_RESULTS)}>View My Test Results</button>
+                              <div className="text-center">  
+                                  <button className="btn purple-gradient" onClick = { () => this.props.history.push(ROUTES.VIEW_PATIENT_RESULTS)}>View My Test Results</button>
                               </div>  
                         </div>
                     </div>

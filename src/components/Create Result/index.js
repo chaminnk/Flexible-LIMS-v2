@@ -165,10 +165,10 @@ class CreateResultDisplayBase extends Component {
       var cards = [];
       for (var i = 0; i < this.state.properties.length; i++) {
         
-        cards.push(<div style ={{marginTop: "25px"}} class="d-flex justify-content-center ">
-        <div class="card w-50">
-        <div class="md-form">
-                        <div class="text-center">
+        cards.push(<div style ={{marginTop: "25px"}} className="d-flex justify-content-center ">
+        <div className="card w-50">
+        <div className="md-form">
+                        <div className="text-center">
                       {this.state.properties[i].propertyName} : <input
                         name={this.state.properties[i].propertyKey}
                 
@@ -222,12 +222,12 @@ class CreateResultDisplayBase extends Component {
       var cards2 = [];
       for (var j = 0; j < this.state.optionProperties.length; j++) {
         
-        cards2.push(<div style ={{marginTop: "25px"}} class="d-flex justify-content-center ">
-        <div class="card w-50">
-        <div class="md-form">
-                        <div class="text-center">
+        cards2.push(<div style ={{marginTop: "25px"}} className="d-flex justify-content-center ">
+        <div className="card w-50">
+        <div className="md-form">
+                        <div className="text-center">
                       {this.state.optionProperties[j].propertyName} : 
-                      <div class="text-center">
+                      <div className="text-center">
                       <Select
                         name = {this.state.optionProperties[j].propertyKey}
                         
@@ -277,10 +277,10 @@ class CreateResultDisplayBase extends Component {
       var cards3 = [];
       for (var k = 0; k < this.state.textProperties.length; k++) {
         
-        cards3.push(<div style ={{marginTop: "25px"}} class="d-flex justify-content-center ">
-        <div class="card w-50">
-        <div class="md-form">
-                        <div class="text-center">
+        cards3.push(<div style ={{marginTop: "25px"}} className="d-flex justify-content-center ">
+        <div className="card w-50">
+        <div className="md-form">
+                        <div className="text-center">
                       {this.state.textProperties[k].propertyName} : <input
                         name={this.state.textProperties[k].propertyKey}
                 
@@ -401,18 +401,18 @@ class CreateResultDisplayBase extends Component {
       <div style ={{marginTop: "25px"}} >
         
         
-            <div class="text-center">
-              <h3><i class="far fa-edit"></i> Create Test Result</h3>        
+            <div className="text-center">
+              <h3><i className="far fa-edit"></i> Create Test Result</h3>        
             </div>
-            <div style ={{marginTop: "25px"}} class="text-center">
-                    <h5><i class="fas fa-hand-pointer"></i> Click on a Patient to select a Patient</h5>
+            <div style ={{marginTop: "25px"}} className="text-center">
+                    <h5><i className="fas fa-hand-pointer"></i> Click on a Patient to select a Patient</h5>
           
             </div>
          
           
    
             
-            <div style={{cursor: "pointer"}} class="d-flex justify-content-center">
+            <div style={{cursor: "pointer"}} className="d-flex justify-content-center">
                 <Griddle 
                     pageProperties={pageProperties}
                     data={this.state.users} 
@@ -440,18 +440,18 @@ class CreateResultDisplayBase extends Component {
         
 
         <div style ={{marginTop: "25px"}} >
-          <div class="d-flex justify-content-center ">
+          <div className="d-flex justify-content-center ">
         
           
           
-            <div class="card w-50">
-              <div class="text-center">
+            <div className="card w-50">
+              <div className="text-center">
               
-                    <h5><i class="fas fa-user-plus"></i>  Patient Details</h5>
-                    <hr class="mt-2 mb-2"></hr>
+                    <h5><i className="fas fa-user-plus"></i>  Patient Details</h5>
+                    <hr className="mt-2 mb-2"></hr>
               </div>
-              <div class="md-form">
-                  <div class="text-center">
+              <div className="md-form">
+                  <div className="text-center">
                 First Name : <input
                   name="firstName"
           
@@ -462,8 +462,8 @@ class CreateResultDisplayBase extends Component {
                 />
                 </div>
               </div>
-              <div class="md-form">
-                  <div class="text-center">
+              <div className="md-form">
+                  <div className="text-center">
                   Last Name : <input
                   name="lastName"
                   value={this.state.lastName}
@@ -474,8 +474,8 @@ class CreateResultDisplayBase extends Component {
                 />
                 </div>
               </div>
-            <div class="md-form">
-                  <div class="text-center">
+            <div className="md-form">
+                  <div className="text-center">
                   Email : <input
                   name="email"
                   value={this.state.email}
@@ -486,8 +486,8 @@ class CreateResultDisplayBase extends Component {
                 />
               </div>
             </div>
-            <div class="md-form">
-                  <div class="text-center">
+            <div className="md-form">
+                  <div className="text-center">
                   Gender : <input
                   name="gender"
                   value={this.state.gender}
@@ -498,8 +498,8 @@ class CreateResultDisplayBase extends Component {
                 />
               </div>
             </div>
-            <div class="md-form">
-                  <div class="text-center">
+            <div className="md-form">
+                  <div className="text-center">
                   Age: <input
                   name="age"
                   value={this.state.age}
@@ -511,8 +511,8 @@ class CreateResultDisplayBase extends Component {
                 />
                 </div>
               </div>
-              <div class="md-form">
-                  <div class="text-center">
+              <div className="md-form">
+                  <div className="text-center">
                   Time stamp: <input
                   name="timeStamp"
                   value={this.state.timeStamp}
@@ -524,8 +524,8 @@ class CreateResultDisplayBase extends Component {
                 />
                 </div>
               </div>
-              <div class="md-form">
-                  <div class="text-center">
+              <div className="md-form">
+                  <div className="text-center">
                   Referred by: <input
                   name="referredBy"
                   
@@ -541,10 +541,10 @@ class CreateResultDisplayBase extends Component {
             </div>
             </div>        
             <div style ={{marginTop: "25px"}}>
-          <div class="d-flex justify-content-center">
-            <div class="text-center">
-                    <h5><i class="fas fa-hand-pointer"></i> Double click on a Form to select Test Form</h5>
-                    <hr class="mt-2 mb-2"></hr>
+          <div className="d-flex justify-content-center">
+            <div className="text-center">
+                    <h5><i className="fas fa-hand-pointer"></i> Double click on a Form to select Test Form</h5>
+                    <hr className="mt-2 mb-2"></hr>
             </div>
           </div>
           
@@ -554,7 +554,7 @@ class CreateResultDisplayBase extends Component {
 
 
             <div style ={{marginTop: "25px"}}>
-            <div style={{cursor: "pointer"}} class="d-flex justify-content-center">
+            <div style={{cursor: "pointer"}} className="d-flex justify-content-center">
               <Griddle
                     pageProperties={pageProperties}
                     data={this.state.forms} 
@@ -582,18 +582,18 @@ class CreateResultDisplayBase extends Component {
                 
             </div>
             <div style ={{marginTop: "25px"}} >
-          <div class="d-flex justify-content-center ">
+          <div className="d-flex justify-content-center ">
         
           
           
-            <div class="card w-50">
-              <div class="text-center">
+            <div className="card w-50">
+              <div className="text-center">
               
-                    <h5><i class="far fa-edit"></i>  {this.state.formName}</h5>
-                    <hr class="mt-2 mb-2"></hr>
+                    <h5><i className="far fa-edit"></i>  {this.state.formName}</h5>
+                    <hr className="mt-2 mb-2"></hr>
               </div>
-              <div class="md-form">
-                  <div class="text-center">
+              <div className="md-form">
+                  <div className="text-center">
                 Specimen : <input
                   name="specimen"
           
@@ -604,8 +604,8 @@ class CreateResultDisplayBase extends Component {
                 />
                 </div>
               </div>
-              <div class="md-form">
-                  <div class="text-center">
+              <div className="md-form">
+                  <div className="text-center">
                   Test Type : <input
                   name="testType"
                   value={this.state.testType}
@@ -626,17 +626,17 @@ class CreateResultDisplayBase extends Component {
           {this.state.cards3} 
             </div>
             
-            <div style ={{marginTop: "25px"}} class="text-center">
-              <button class="btn purple-gradient" onClick = { () => this.createTest()} >Create Test Result</button>
+            <div style ={{marginTop: "25px"}} className="text-center">
+              <button className="btn purple-gradient" onClick = { () => this.createTest()} >Create Test Result</button>
             </div>
         </div>
 
       </div>  
       :
       <div>
-        <div style ={{marginTop: "50px"}} class = "d-flex justify-content-center">
-                <div class="spinner-border text-success" role="status">
-                    <span class="sr-only">Loading...</span>
+        <div style ={{marginTop: "50px"}} className= "d-flex justify-content-center">
+                <div className="spinner-border text-success" role="status">
+                    <span className="sr-only">Loading...</span>
                 </div>
             </div>
       </div>

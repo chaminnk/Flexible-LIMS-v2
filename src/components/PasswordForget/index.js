@@ -16,14 +16,14 @@ const PasswordForgetPage = () => (
         : <p></p>
       }
     </AuthUserContext.Consumer>
-    <h1>Forgot Password?</h1>
+    
     <PasswordForgetForm />
   </div>
 );
 
 const INITIAL_STATE = {
   email: '',
-  error: null,
+  
 };
 
 class PasswordForgetFormBase extends Component {
@@ -33,19 +33,22 @@ class PasswordForgetFormBase extends Component {
     this.state = { ...INITIAL_STATE };
   }
 
-  onSubmit = event => {
-    const { email } = this.state;
-
+  sendEmail = (email) => {
+    if (!(/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]+/.test(email))) { 
+      alert("Please enter a valid Email adress");
+      return;
+    }
     this.props.firebase
       .doPasswordReset(email)
       .then(() => {
+        alert("Password change email has been sent to your email account");
         this.setState({ ...INITIAL_STATE });
       })
       .catch(error => {
-        this.setState({ error });
+        alert(error.message);
       });
 
-    event.preventDefault();
+   
   };
 
   onChange = event => {
@@ -53,25 +56,45 @@ class PasswordForgetFormBase extends Component {
   };
 
   render() {
-    const { email, error } = this.state;
+   
 
-    const isInvalid = email === '';
+    
 
     return (
-      <form onSubmit={this.onSubmit}>
+      <div style ={{marginTop: "50px"}} >
+      <div className="d-flex justify-content-center ">
+      <div className="card" style={{width: "40rem"}}>
+            <div className="text-center">
+                <h3><i className="fas fa-user-plus"></i> Update Password via Email</h3>
+                
+            </div>
+            <div className="md-form">
+                <div className="text-center">
         <input
           name="email"
           value={this.state.email}
           onChange={this.onChange}
           type="text"
-          placeholder="Email Address"
+          placeholder="Enter Email Address"
         />
-        <button disabled={isInvalid} type="submit">
+             </div>
+           </div>
+           
+        <div className="text-center">
+          <button className="btn blue-gradient" onClick = { () => this.sendEmail(this.state.email)}>Send Email</button>
+          
+          </div> 
+        {/* <button disabled={isInvalid} type="submit">
           Reset My Password
         </button>
 
         {error && <p>{error.message}</p>}
-      </form>
+      </form> */}
+      </div>
+         
+    </div>
+    </div>
+     
     );
   }
 }

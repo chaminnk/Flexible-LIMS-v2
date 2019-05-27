@@ -102,11 +102,11 @@ class UpdatePropertyDisplayBase extends Component {
         {this.state.fire_loaded1  ?  // only if the firebase data are loaded or admins and laboratory data operators can view this page  
         <div style ={{marginTop: "50px"}} >
     
-          <div class="text-center">
-                    <h5><i class="fas fa-hand-pointer"></i> Click on a property data type to update</h5>
+          <div className="text-center">
+                    <h5><i className="fas fa-hand-pointer"></i> Click on a property data type to update</h5>
           
           </div>
-          <div style={{cursor: "pointer"}} class="d-flex justify-content-center">
+          <div style={{cursor: "pointer"}} className="d-flex justify-content-center">
           
   
           <Griddle 
@@ -133,9 +133,9 @@ class UpdatePropertyDisplayBase extends Component {
          
         </div>  
         :
-        <div style ={{marginTop: "50px"}} class = "d-flex justify-content-center">
-            <div class="spinner-border text-success" role="status">
-              <span class="sr-only">Loading...</span>
+        <div style ={{marginTop: "50px"}} className= "d-flex justify-content-center">
+            <div className="spinner-border text-success" role="status">
+              <span className="sr-only">Loading...</span>
             </div>
           </div>
         }
