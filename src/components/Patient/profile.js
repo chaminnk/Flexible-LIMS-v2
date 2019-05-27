@@ -77,7 +77,7 @@ class PatientAccountPageFormBase extends Component {
     
   }
   
-  updateUser = (email, firstName, lastName, contactNum, address, gender, dob) => {
+  updateUser = (email, firstName, lastName, contactNum, address, gender, dob,userType) => {
     
     email=email.trim(); //remove unnecessary white spaces
 
