@@ -1,7 +1,6 @@
 const { Builder, By, Key, until } = require('selenium-webdriver')
 const assert=require('assert');
 require('selenium-webdriver/chrome')
-
 require('selenium-webdriver/firefox')
 const webdriver=require('selenium-webdriver')
 require('chromedriver')
@@ -50,7 +49,7 @@ it('initialises the context', async () => {
 
 
 describe('Login', () => {
-  it('logins with correct creentials', async () => {
+  it('logs in with correct credentials', async () => {
     await driver.findElement({ name: 'email' }).sendKeys('chaminnkac@gmail.com')
     await driver.findElement({ name: 'password' }).sendKeys('ffffff')
     await driver.findElement({id:'login_button'}).sendKeys(webdriver.Key.ENTER)

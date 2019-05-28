@@ -41,7 +41,7 @@ class CreateFormFormBase extends Component {
   // handleChange(event) {
   //   this.setState({firstName: event.target.firstName});
   // }
-
+  numericDatas= [];
   async componentWillMount() {
      //user authorization
      await firebase.database().ref('users/'+firebase.auth().currentUser.uid).once('value',(snapshot) => {
