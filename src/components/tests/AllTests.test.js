@@ -66,12 +66,52 @@ describe('Login', () => {
 describe('Create Form', () => {
   it('Form can be created',  () => {
      driver.get("https://flexlims.herokuapp.com/create-form")
-     driver.findElement(webdriver.By.xpath("/html/body/div/div/div[2]/div/div/div[2]/div/input")).sendKeys("Test test")
+     driver.findElement(webdriver.By.xpath("/html/body/div/div/div[2]/div/div/div[2]/div/input")).sendKeys("Tt test")
      driver.findElement(webdriver.By.xpath("//*[@id=\"numeric0\"]")).click()
      driver.findElement(webdriver.By.xpath("/html/body/div/div/div[2]/div/div/div[5]/div[12]/button")).click()
     driver.switchTo().alert().then(
       function() {
         assert.equal(driver.switchTo().alert().getText(),"Form successfully created!")
+      },
+      function() {
+        assert.assert(false)
+      }
+    );
+  })
+});
+describe('Create Numeric Property', () => {
+  it('Property can be created',  () => {
+     driver.get("https://flexlims.herokuapp.com/create-numeric-property")
+     driver.findElement(webdriver.By.xpath("/html/body/div/div/div[2]/div/div/div/div[2]/div/input")).sendKeys("Test Numeric Property")
+     driver.findElement(webdriver.By.xpath("/html/body/div/div/div[2]/div/div/div/div[3]/div/input")).sendKeys("mm")
+     driver.findElement(webdriver.By.xpath("/html/body/div/div/div[2]/div/div/div/div[4]/div/input")).sendKeys("6")
+     driver.findElement(webdriver.By.xpath("/html/body/div/div/div[2]/div/div/div/div[5]/div/input")).sendKeys("8")
+     
+     driver.findElement(webdriver.By.xpath("/html/body/div/div/div[2]/div/div/div/div[6]/button[1]")).click()
+     
+    driver.switchTo().alert().then(
+      function() {
+        assert.equal(driver.switchTo().alert().getText(),"Numeric property successfully added!")
+      },
+      function() {
+        assert.assert(false)
+      }
+    );
+  })
+});
+describe('Create Option Property', () => {
+  it('Property can be created',  () => {
+     driver.get("https://flexlims.herokuapp.com/create-option-property")
+     driver.findElement(webdriver.By.xpath("/html/body/div/div/div[2]/div/div/div/div[2]/div/input")).sendKeys("Test option Property")
+     driver.findElement(webdriver.By.xpath("/html/body/div/div/div[2]/div/div/div/div[3]/div/input")).sendKeys("mm")
+     driver.findElement(webdriver.By.xpath("/html/body/div/div/div[2]/div/div/div/div[4]/div/input")).sendKeys("6")
+     driver.findElement(webdriver.By.xpath("/html/body/div/div/div[2]/div/div/div/div[5]/div/input")).sendKeys("8")
+     
+     driver.findElement(webdriver.By.xpath("/html/body/div/div/div[2]/div/div/div/div[6]/button[1]")).click()
+     
+    driver.switchTo().alert().then(
+      function() {
+        assert.equal(driver.switchTo().alert().getText(),"Numeric property successfully added!")
       },
       function() {
         assert.assert(false)

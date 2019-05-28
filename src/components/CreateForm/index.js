@@ -7,6 +7,7 @@ import * as firebase from 'firebase';
 import { withAuthorization } from '../Session';
 import Griddle, { plugins, RowDefinition, ColumnDefinition} from 'griddle-react';
 
+
 const CreateFormPage = () => ( // for the use of routing
   <div>
     
@@ -129,8 +130,42 @@ class CreateFormFormBase extends Component {
     
   }
 
+  isSelectedNumericProperty = (key) => {
 
+    for ( var i =0;  i<this.state.selectedNumericProperties.length; i++){
+ 
+        if(this.state.selectedNumericProperties[i].propertyKey===this.state.numericProperties[key].propertyKey){
+       
+          return true;
 
+  
+        }
+    }
+  }
+  isSelectedOptionProperty = (key) => {
+
+    for ( var i =0;  i<this.state.selectedOptionProperties.length; i++){
+ 
+        if(this.state.selectedOptionProperties[i].propertyKey===this.state.optionProperties[key].propertyKey){
+       
+          return true;
+
+  
+        }
+    }
+  }
+  isSelectedTextProperty = (key) => {
+
+    for ( var i =0;  i<this.state.selectedTextProperties.length; i++){
+ 
+        if(this.state.selectedTextProperties[i].propertyKey===this.state.textProperties[key].propertyKey){
+       
+          return true;
+
+  
+        }
+    }
+  }
   onChange = event => {
     this.setState({ [event.target.name]: event.target.value }); // set the value to the corresponding name of the state in an onChange event
   };
@@ -178,8 +213,11 @@ class CreateFormFormBase extends Component {
   selectNumericProperty = (key) => {
 
     var checkBox = document.getElementById("numeric"+key);
+
     if (checkBox.checked === true){
+      if (! this.isSelectedNumericProperty(key)){
       this.setState({selectedNumericProperties: this.state.selectedNumericProperties.concat(this.state.numericProperties[key])});
+      }
       
     } else {
     
@@ -192,8 +230,9 @@ class CreateFormFormBase extends Component {
 
     var checkBox = document.getElementById("option"+key);
     if (checkBox.checked === true){
+      if (! this.isSelectedOptionProperty(key)){
       this.setState({selectedOptionProperties: this.state.selectedOptionProperties.concat(this.state.optionProperties[key])});
-      
+      }
     } else {
     
       this.setState({selectedOptionProperties: this.state.selectedOptionProperties.filter(p=> p.id !== key)});
@@ -205,8 +244,9 @@ class CreateFormFormBase extends Component {
 
     var checkBox = document.getElementById("text"+key);
     if (checkBox.checked === true){
+      if (! this.isSelectedTextProperty(key)){
       this.setState({selectedTextProperties: this.state.selectedTextProperties.concat(this.state.textProperties[key])});
-      
+      }
     } else {
     
       this.setState({selectedTextProperties: this.state.selectedTextProperties.filter(p=> p.id !== key)});
