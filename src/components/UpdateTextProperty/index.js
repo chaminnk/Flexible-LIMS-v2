@@ -313,7 +313,7 @@ class UpdateTextPropertyPageFormBase extends Component {
         
     <div className="card w-25">
       <div className="text-center">
-            <h3><i className="fas fa-user-plus"></i> Update Text Property</h3>
+            <h3><i className="far fa-edit"></i> Update Text Property</h3>
             <hr className="mt-2 mb-2"></hr>
       </div>
       <div className="md-form">

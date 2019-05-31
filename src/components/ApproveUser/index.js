@@ -100,7 +100,7 @@ class ApproveUsersDisplayBase extends Component {
     var updates = {};
     updates['/users/' + userKey + '/userType'] = userType;
     firebase.database().ref().update(updates).then(function(){
-      alert("User type successfully updated to ");
+      alert("User type successfully updated.");
     }).catch(function(error){
       alert(error.message);
     });
