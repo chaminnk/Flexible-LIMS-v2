@@ -1,6 +1,8 @@
 # Flexible-LIMS-v2
 **Laboratory Test Records System with user configurable tests**
 
+https://flexlims.herokuapp.com/
+
 Medical laboratories perform multiple tests, sometimes 30-40 different tests,
 eg: Lipid profile, Full Blood Count. When creating a record management
 system for such a lab, there are multiple ways to define the tests and
@@ -12,3 +14,4 @@ This project addresses these issues and presents a full lab test record manageme
 application) integrating a flexible form schema solution. The users will be
 able to create/read/update/delete test forms and use them to save test
 results so the patients can view them.
+
